@@ -51,7 +51,7 @@ export default function About() {
         <div className="flex flex-col xl:flex-row">
           <div className="flex-1 flex-col items-center justify-center">
             <Tabs defaultValue="personal">
-              <TabsList className="mt-8 w-full grid items-center justify-center xl:grid-cols-3 xl:max-w-[520px]: xl:border dark:border-primary">
+              <TabsList className="mt-8 w-full grid items-center justify-center xl:grid-cols-3 xl:max-w-[520px]:  gap-y-4">
                 <TabsTrigger className="w-[162px] xl:w-auto" value="education">
                   Education
                 </TabsTrigger>

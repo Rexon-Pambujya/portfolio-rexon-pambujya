@@ -25,7 +25,7 @@ export default function Projects() {
         <Tabs defaultValue={category} className="mb-24 xl:mb-48">
           <TabsList
             className="w-full grid h-full md:grid-cols-6 lg:max-w-[640px]
-          mb-12 mx-auto md:border dark:border-none hover:shadow-primary shadow-inner"
+          mb-12 mx-auto md:border dark:border-none hover:shadow-primary shadow-inner gap-y-2"
           >
             {categories.map((category, index) => {
               return (
