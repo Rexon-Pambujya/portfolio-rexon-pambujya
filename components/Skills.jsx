@@ -88,7 +88,7 @@ export default function Skills() {
           </Button>
           <Button
             size="sm"
-            className="bg-secondary h-[2.5rem] text-sm lg:text-lg rounded-sm text-white hover:shadow-primary shadow-lg text-pretty"
+            className="bg-secondary h-[2.5rem] text-sm lg:text-lg rounded-sm text-white hover:shadow-primary shadow-lg"
           >
             Problem-Solving
           </Button>
@@ -112,7 +112,7 @@ export default function Skills() {
           </Button>
           <Button
             size="sm"
-            className="bg-secondary h-[2.5rem] text-sm lg:text-lg rounded-sm text-white hover:shadow-primary shadow-lg text-pretty"
+            className="bg-secondary h-[2.5rem] text-sm lg:text-lg rounded-sm text-white hover:shadow-primary shadow-lg"
           >
             Attention to Detail
           </Button>
