@@ -79,40 +79,40 @@ export default function Skills() {
       </div>
       <div className="w-full flex flex-col items-center justify-center mt-8">
         <h2 className="font-bold ">Soft Skills</h2>
-        <div className="mt-10 xl:mt-12 grid grid-cols-2 xl:grid-cols-3 justify-center items-center gap-y-10 gap-x-10 xl:gap-24 text-[20px]">
+        <div className="mt-5 px-5 xl:mt-12 grid grid-cols-2 xl:grid-cols-3 justify-center items-center gap-y-10 gap-x-10 xl:gap-24 text-[20px]">
           <Button
             size="sm"
-            className="bg-secondary text-lg rounded-sm text-white hover:shadow-primary shadow-lg"
+            className="bg-secondary h-[2.5rem] text-sm lg:text-lg rounded-sm text-white hover:shadow-primary shadow-lg"
           >
             Teamwork
           </Button>
           <Button
             size="sm"
-            className="bg-secondary text-lg rounded-sm text-white hover:shadow-primary shadow-lg"
+            className="bg-secondary h-[2.5rem] text-sm lg:text-lg rounded-sm text-white hover:shadow-primary shadow-lg text-pretty"
           >
             Problem-Solving
           </Button>
           <Button
             size="sm"
-            className="bg-secondary text-lg rounded-sm text-white hover:shadow-primary shadow-lg"
+            className="bg-secondary h-[2.5rem] text-sm lg:text-lg rounded-sm text-white hover:shadow-primary shadow-lg"
           >
             Empathy
           </Button>
           <Button
             size="sm"
-            className="bg-secondary text-lg rounded-sm text-white hover:shadow-primary shadow-lg"
+            className="bg-secondary h-[2.5rem] text-sm lg:text-lg rounded-sm text-white hover:shadow-primary shadow-lg"
           >
             Leadership
           </Button>
           <Button
             size="sm"
-            className="bg-secondary text-lg rounded-sm text-white hover:shadow-primary shadow-lg"
+            className="bg-secondary h-[2.5rem] text-sm lg:text-lg rounded-sm text-white hover:shadow-primary shadow-lg"
           >
             Project Management
           </Button>
           <Button
             size="sm"
-            className="bg-secondary text-lg rounded-sm text-white hover:shadow-primary shadow-lg"
+            className="bg-secondary h-[2.5rem] text-sm lg:text-lg rounded-sm text-white hover:shadow-primary shadow-lg text-pretty"
           >
             Attention to Detail
           </Button>

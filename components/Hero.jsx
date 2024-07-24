@@ -17,17 +17,17 @@ export default function Hero() {
       className="py-12 xl:py-19 h-auto xl:pt-20 bg-hero bg-no-repeat 
     bg-bottom bg-cover dark:bg-none mb-24"
     >
-      <div className="p-10 mx-auto">
+      <div className="p-8 xl:p-10 mx-auto">
         <div className="flex flex-col xl:flex-row justify-between gap-x-8">
           <div
             className="flex max-w-[600px] flex-col justify-center mx-auto
-          xl:mx-0 text-center xl:text-left"
+          xl:mx-0 text-center xl:text-left order-2 xl:order-1"
           >
             <div className="text-sm uppercase font-semibold mb-4 text-primary tracking-[4px]">
               Software Engineer
             </div>
             <h1 className="h1 mb-4">Hello, my name is Rexon Pambujya</h1>
-            <p className="subtitle max-w-[490px] mx-auto xl:mx-0">
+            <p className="subtitle max-w-[490px] mx-auto xl:mx-0 text-justify">
               Hello, my name is 𝗥𝗲𝘅𝗼𝗻 𝗗𝗮𝘃𝗶𝗱 𝗣𝗮𝗺𝗯𝘂𝗷𝘆𝗮, and I am an ardent
               software engineer with a keen interest in data science and
               emerging technologies. With a proactive and goal-oriented
@@ -62,28 +62,28 @@ export default function Hero() {
               iconsStyles="text-foreground text-[25px] hover:text-primary transition-all"
             />
           </div>
-          <div className="hidden xl:flex relative">
-            <Badge
-              containerStyles="absolute top-[24%] -left-[5rem]"
-              icon={<RiBriefcase4Fill />}
-              endCountNum={1}
-              badgeText="Years Of Experience"
-            />
-            <Badge
-              containerStyles="absolute top-[80%] -left-[1rem]"
-              icon={<RiTodoFill />}
-              endCountNum={10}
-              endCountText=""
-              badgeText="Finished Projects"
-            />
-            <div
-              className="bg-hero_shape2_light dark:bg-hero_shape2_dark w-[500px] h-[500px] bg-no-repeat absolute -top-1 
-            -right-2"
-            ></div>
-            <DevImg
-              containerStyles="bg-hero_shape w-[510px] h-[462px] bg-no-repeat relative bg-bottom overflow:hidden"
-              imgSrc="/hero/dev.png"
-            />
+          <div className="relative flex flex-col justify-center items-center order-1 xl:order-2 mb-8 xl:mb-0">
+            <div className="relative w-full  max-w-[510px]">
+              <div className="bg-hero_shape2_light dark:bg-hero_shape2_dark w-full h-full bg-no-repeat absolute bg-left-bottom lg:-top-12 -right-2 bg-contain"></div>
+              <DevImg
+                containerStyles="bg-hero_shape w-full xl:w-[510px] h-[462px] bg-no-repeat relative bg-bottom bg-contain overflow:hidden md:bg-cover"
+                imgSrc="/hero/dev.png"
+              />
+
+              <Badge
+                containerStyles="absolute top-[24%] -left-[1rem] lg:-left-[5rem]"
+                icon={<RiBriefcase4Fill />}
+                endCountNum={1}
+                badgeText="Years Of Experience"
+              />
+              <Badge
+                containerStyles="absolute top-[80%] -left-[1rem]"
+                icon={<RiTodoFill />}
+                endCountNum={10}
+                endCountText="+"
+                badgeText="Finished Projects"
+              />
+            </div>
           </div>
         </div>
         <div

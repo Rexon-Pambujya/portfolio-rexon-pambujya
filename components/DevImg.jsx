@@ -6,7 +6,9 @@ export default function DevImg({ containerStyles, imgSrc }) {
         <Image
           src={imgSrc}
           fill
-          style={{ objectFit: "scale-down" }}
+          style={{
+            objectFit: "scale-down",
+          }}
           priority
           alt="Image of the dev who created this website"
           sizes="(max-width:768px) 100vw, (max-width:1200px) 50vw, 33vw"
