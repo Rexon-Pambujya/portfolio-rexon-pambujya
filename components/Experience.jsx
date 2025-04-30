@@ -6,7 +6,7 @@ import { useRef } from "react";
 
 const Details = ({ position, company, companyLink, time, address, work }) => {
   return (
-    <li className="first:mt-0 first:mb-5 w-full mx-auto xl:flex-grow flex flex-col items-center xs:text-base text-justify justify-between">
+    <li className="first:mt-0 mb-5 w-full mx-auto xl:flex-grow flex flex-col items-center xs:text-base text-justify justify-between">
       <div>
         <h2 className="capitalize font-bold xl:text-2xl ">
           {position}&nbsp;
@@ -75,6 +75,18 @@ export default function Experience() {
             work={`Clustering of Indian Addresses to derive Business Insights.
             • Analyzed and processed Indian address data, transformed it into a structured format, assigned precise geo-coordinates, and clustered locations.
 • Demonstrated the potential of machine learning algorithms to cluster geographic coordinates, leading to significant reductions in transportation costs and improved delivery times.`}
+          />
+          <Details
+            company="Blitzar Tech Pvt Ltd."
+            address="Mumbai"
+            position="Associate Software Engineer"
+            time="Feb 2024 – Present"
+            companyLink=""
+            work={`• Worked on a web application to modernize the salary processing system for BMC schools, replacing manual file-based processes with an online system.
+• Built backend services using Python, integrating REST APIs for seamless data processing.
+• I worked on developing several frontend modules using modern technologies React.js, Next.js, HTML, and CSS, to enhance navigation and user experience.
+• Significantly improved efficiency and accuracy in salary disbursement for BMC schools.
+`}
           />
         </ul>
       </div>

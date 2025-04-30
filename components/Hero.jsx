@@ -28,11 +28,16 @@ export default function Hero() {
             </div>
             <h1 className="h1 mb-4">Hello, my name is Rexon Pambujya</h1>
             <p className="subtitle max-w-[490px] mx-auto xl:mx-0 text-justify">
-              Hello, my name is 𝗥𝗲𝘅𝗼𝗻 𝗗𝗮𝘃𝗶𝗱 𝗣𝗮𝗺𝗯𝘂𝗷𝘆𝗮, and I am an ardent
-              software engineer with a keen interest in data science and
-              emerging technologies. With a proactive and goal-oriented
-              approach, I am eager to contribute my skills in creating impactful
-              computing solutions.
+              A passionate Software Engineer based in Mumbai with strong skills
+              in 𝗣𝘆𝘁𝗵𝗼𝗻, 𝗗𝗮𝘁𝗮 𝗦𝗰𝗶𝗲𝗻𝗰𝗲, 𝗠𝗮𝗰𝗵𝗶𝗻𝗲 𝗟𝗲𝗮𝗿𝗻𝗶𝗻𝗴 𝗮𝗻𝗱 𝗪𝗲𝗯 𝗗𝗲𝘃𝗲𝗹𝗼𝗽𝗺𝗲𝗻𝘁.
+              With hands-on experience at companies like 𝗕𝗹𝗶𝘁𝘇𝗮𝗿 𝗧𝗲𝗰𝗵, 𝗫𝗘𝗠𝗜, 𝗮𝗻𝗱
+              𝗖𝗲𝗿𝗲 𝗟𝗮𝗯𝘀, I've delivered real-world impact — fine-tuning AI
+              models to improve prediction accuracy, building intelligent
+              chatbots that cut customer response time, and streamlining web
+              applications for faster deployments. I love blending technology
+              and innovation to solve business problems, whether it's creating
+              machine learning models, automating processes, or enhancing user
+              experiences.
             </p>
             <div
               className="flex flex-col gap-y-3 md:flex-row gap-x-3 mx-auto
@@ -73,13 +78,13 @@ export default function Hero() {
               <Badge
                 containerStyles="absolute top-[24%] -left-[1rem] lg:-left-[5rem]"
                 icon={<RiBriefcase4Fill />}
-                endCountNum={1}
+                endCountNum={2}
                 badgeText="Years Of Experience"
               />
               <Badge
                 containerStyles="absolute top-[80%] -left-[1rem]"
                 icon={<RiTodoFill />}
-                endCountNum={10}
+                endCountNum={12}
                 endCountText="+"
                 badgeText="Finished Projects"
               />
