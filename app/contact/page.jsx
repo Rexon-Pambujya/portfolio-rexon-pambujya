@@ -58,7 +58,7 @@ export default function Contacts() {
             </Link>
             <div className="flex items-center gap-x-8">
               <PhoneCall size={18} className="text-primary" />
-              <div>+91 9511810373</div>
+              <div></div>
             </div>
           </div>
         </div>
