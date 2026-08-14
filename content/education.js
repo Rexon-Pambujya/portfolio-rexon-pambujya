@@ -19,14 +19,13 @@ export const education = [
     end: "May 2019",
   },
   {
-    // FIXME(rexon): these dates are identical to the 12th above — they were
-    // duplicated in the old Education.jsx. SSC is normally the two years
-    // before HSC (so roughly Aug 2015 – May 2017). Correct and delete this note.
+    // Spans the full school career at St. Anthony's, not just the final
+    // year — which is why the range is much longer than the HSC above.
     qualification: "Secondary School Certificate (10th)",
     institution: "St. Anthony's Convent High School",
     location: "Vasai, India",
-    start: "Aug 2017",
-    end: "May 2019",
+    start: "Jun 2005",
+    end: "Jun 2017",
   },
 ];
 
