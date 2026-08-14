@@ -1,73 +1,32 @@
 "use client";
 
-import { motion, useScroll, useSpring } from "framer-motion";
-import { GraduationCap } from "lucide-react";
-import { useRef } from "react";
-
-const Details = ({ coursetype, time, place, info }) => {
-  return (
-    <li className="first:mt-0 first:mb-5 mb-5 w-[90%] mx-auto xl:flex-grow flex-1 flex-col items-center text-justify justify-between">
-      <div>
-        <h3 className="capitalize font-bold xl:text-2xl ">
-          {coursetype}&nbsp;
-        </h3>
-        <span className="capitalize font-medium text-muted-foreground">
-          {time} | {place}
-        </span>
-        <p className="font-light w-full">
-          {info.split("\n").map((line, index) => (
-            <span key={index}>
-              {line}
-              {index !== info.split("\n").length - 1 && <br />}
-            </span>
-          ))}
-        </p>
-      </div>
-    </li>
-  );
-};
+import Reveal from "./motion/Reveal";
+import { education } from "@/content/education";
 
 export default function Education() {
-  const ref = useRef(null);
-  // const completion = useScrollProgress(ref);
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start end", "center start"],
-  });
-  const scaleY = scrollYProgress;
   return (
-    <div className="my-34">
-      <div className="flex items-center justify-center mb-10 gap-x-4">
-        <GraduationCap size={28} />
-        <h2 className="font-bold text-2xl ">Education</h2>
-      </div>
-      <div ref={ref} className="w-[85%] mx-auto lg:w-[90%] relative">
-        <motion.div
-          className="hidden xl:flex absolute left-8 top-0 w-[4px] h-full bg-primary origin-top"
-          style={{ scaleY }}
-          transition={{ type: "inertia" }}
-        />
-        <ul className="w-full flex flex-col items-start justify-between xl:ml-8 xs:ml-0.5">
-          <Details
-            coursetype="Bachelors of Engineering (B.E) IT"
-            place="Mumbai, India"
-            time="August 2019 - July 2023"
-            info="St. Francis Institute of Technology"
-          />
-          <Details
-            coursetype="12th Higher Secondary Certificate (H.S.C)"
-            place="Vasai, India"
-            time="Aug 2017 – May 2019"
-            info="Thomas Baptista Junior College"
-          />
-          <Details
-            coursetype="10th Secondary School Certificate (S.S.C)"
-            place="Vasai, India"
-            time="Aug 2017 – May 2019"
-            info="St. Anthonys Convent High School"
-          />
-        </ul>
-      </div>
-    </div>
+    <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      {education.map((item, i) => (
+        <Reveal
+          as="li"
+          key={`${item.institution}-${item.start}`}
+          from={i % 2 ? "right" : "left"}
+          delay={i * 0.08}
+          className="rounded-2xl border border-border bg-surface/60 p-5"
+        >
+          <p className="mb-3 font-mono text-xs text-muted-foreground">
+            {item.start} – {item.end}
+          </p>
+          <h3 className="h4 mb-1 text-balance">{item.qualification}</h3>
+          <p className="text-sm text-muted-foreground">{item.institution}</p>
+          <p className="mt-1 text-sm text-muted-foreground/70">
+            {item.location}
+          </p>
+          {item.note ? (
+            <p className="mt-3 text-sm text-muted-foreground">{item.note}</p>
+          ) : null}
+        </Reveal>
+      ))}
+    </ul>
   );
 }

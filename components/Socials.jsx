@@ -1,39 +1,38 @@
-"use client";
 import Link from "next/link";
 import { RiGithubFill, RiLinkedinFill } from "react-icons/ri";
 import { SiLeetcode } from "react-icons/si";
-const icons = [
-  {
-    path: "https://www.linkedin.com/in/rexon-pambujya/",
-    name: <RiLinkedinFill />,
-    labelText: "LinkedIn Profile",
-  },
-  {
-    path: "https://github.com/Rexon-Pambujya",
-    name: <RiGithubFill />,
-    labelText: "Github Profile",
-  },
-  {
-    path: "https://leetcode.com/u/Rexon_Pambujya/",
-    name: <SiLeetcode />,
-    labelText: "LeetCode Profile",
-  },
-];
-export default function Socials({ containerStyles, iconsStyles }) {
+
+import { socials } from "@/content/socials";
+
+const iconMap = {
+  linkedin: RiLinkedinFill,
+  github: RiGithubFill,
+  leetcode: SiLeetcode,
+};
+
+export default function Socials({ containerStyles = "", iconsStyles = "" }) {
   return (
-    <div className={`${containerStyles}`}>
-      {icons.map((icon, index) => {
+    <ul className={containerStyles}>
+      {socials.map((social) => {
+        const Icon = iconMap[social.icon];
+        if (!Icon) return null;
+
         return (
-          <Link
-            target="_blank"
-            href={icon.path}
-            key={index}
-            aria-label={icon.labelText}
-          >
-            <div className={`${iconsStyles}`}>{icon.name}</div>
-          </Link>
+          <li key={social.href}>
+            <Link
+              href={social.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={`${social.label} profile`}
+              // 44px hit area regardless of how small the glyph is
+              className={`inline-flex h-11 w-11 items-center justify-center
+                          rounded-full transition-colors ${iconsStyles}`}
+            >
+              <Icon aria-hidden />
+            </Link>
+          </li>
         );
       })}
-    </div>
+    </ul>
   );
 }

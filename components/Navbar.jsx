@@ -1,39 +1,42 @@
+"use client";
+
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import React from "react";
 import { motion } from "framer-motion";
 
-const links = [
-  { path: "/", name: "Home" },
-  { path: "/projects", name: "Projects" },
-  { path: "/contact", name: "Contact" },
-];
+import { useMotionPref } from "./motion/MotionPreference";
 
-export default function Navbar({
-  containerStyles,
-  linkStyles,
-  underLineStyles,
-}) {
-  const path = usePathname();
+import { navLinks } from "@/content/site";
+
+export default function Navbar({ containerStyles = "", onNavigate }) {
+  const pathname = usePathname();
+  const reduced = useMotionPref();
+
   return (
-    <nav className={`${containerStyles}`}>
-      {links.map((link, index) => {
+    <nav className={containerStyles}>
+      {navLinks.map((link) => {
+        const active = pathname === link.href;
+
         return (
           <Link
-            href={link.path}
-            key={index}
-            className={`relative capitalize ${linkStyles}`}
+            key={link.href}
+            href={link.href}
+            onClick={onNavigate}
+            aria-current={active ? "page" : undefined}
+            className={`relative inline-flex min-h-[44px] items-center text-base
+                        transition-colors lg:min-h-0 ${
+                          active
+                            ? "text-foreground"
+                            : "text-muted-foreground hover:text-foreground"
+                        }`}
           >
-            {link.path === path && (
+            {link.label}
+            {active ? (
               <motion.span
-                initial={{ y: "-100%" }}
-                animate={{ y: 0 }}
-                transition={{ type: "tween" }}
-                layoutId="underline"
-                className={`absolute bottom-0 left-0 h-[2.5px] bg-primary w-full ${underLineStyles}`}
+                layoutId={reduced ? undefined : "nav-underline"}
+                className="absolute -bottom-1 left-0 h-px w-full bg-primary"
               />
-            )}
-            {link.name}
+            ) : null}
           </Link>
         );
       })}

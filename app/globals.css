@@ -2,61 +2,98 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ------------------------------------------------------------------
+   Palette: "deep water"
+   Dark  = the ocean at dusk (primary mode)
+   Light = a nautical chart on parchment
+   Values are HSL triplets so shadcn's hsl(var(--x)) contract still holds.
+------------------------------------------------------------------ */
+
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 240 19% 16%;
+    /* parchment */
+    --background: 38 53% 96%;
+    --surface: 0 0% 100%;
+    --foreground: 216 53% 9%;
+
     --card: 0 0% 100%;
-    --card-foreground: 240 19% 16%;
+    --card-foreground: 216 53% 9%;
     --popover: 0 0% 100%;
-    --popover-foreground: 224 71.4% 4.1%;
-    --primary: 262.1 83.3% 57.8%;
-    --primary-foreground: 300 0% 100%;
-    --secondary: 240 19% 16%;
-    --secondary-foreground: 300 0% 100%;
-    --tertiary: 27 82% 98%;
-    --muted: 220 14.3% 95.9%;
-    --muted-foreground: 237 13% 40%;
-    --accent: 237 9% 96%;
-    --accent-foreground: 220.9 39.3% 11%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 20% 98%;
-    --border: 220 13% 91%;
-    --input: 220 13% 91%;
-    --ring: 262.1 83.3% 57.8%;
+    --popover-foreground: 216 53% 9%;
+
+    /* deep teal reads on parchment; the bright --lumen does not */
+    --primary: 175 83% 23%;
+    --primary-foreground: 38 53% 96%;
+
+    --secondary: 216 53% 9%;
+    --secondary-foreground: 38 53% 96%;
+
+    --lantern: 31 75% 40%;
+    --lantern-foreground: 38 53% 96%;
+
+    --muted: 38 30% 93%;
+    /* darkened from 42% — muted text sat too close to the sky behind it */
+    --muted-foreground: 211 22% 34%;
+    --accent: 38 30% 93%;
+    --accent-foreground: 216 53% 9%;
+
+    --destructive: 8 72% 48%;
+    --destructive-foreground: 38 53% 96%;
+
+    --border: 38 25% 88%;
+    --input: 38 25% 88%;
+    --ring: 175 83% 23%;
+
+    /* Scene tokens — the shader reads these directly.
+       sea-far is the crest colour and sea-near the trough; they need real
+       separation in lightness or the whole surface renders as a flat field. */
+    --sky-high: 38 53% 96%;
+    --sky-low: 199 58% 80%;
+    --sea-far: 199 52% 58%;
+    --sea-near: 205 55% 26%;
+    --sun: 35 95% 62%;
+
     --radius: 0.75rem;
-    --chart-1: ;
-    --chart-2: ;
-    --chart-3: ;
-    --chart-4: ;
-    --chart-5: ;
   }
 
   .dark {
-    --background: 224 71.4% 4.1%;
-    --foreground: 210 20% 98%;
-    --card: 224 71.4% 4.1%;
-    --card-foreground: 210 20% 98%;
-    --popover: 224 71.4% 4.1%;
-    --popover-foreground: 210 20% 98%;
-    --primary: 263.4 70% 50.4%;
-    --primary-foreground: 210 20% 98%;
-    --secondary: 215 27.9% 16.9%;
-    --secondary-foreground: 210 20% 98%;
-    --muted: 215 27.9% 16.9%;
-    --muted-foreground: 217.9 10.6% 64.9%;
-    --accent: 215 27.9% 16.9%;
-    --accent-foreground: 210 20% 98%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 20% 98%;
-    --border: 215 27.9% 16.9%;
-    --input: 215 27.9% 16.9%;
-    --ring: 263.4 70% 50.4%;
-    --chart-1: ;
-    --chart-2: ;
-    --chart-3: ;
-    --chart-4: ;
-    --chart-5: ;
+    /* ocean at dusk */
+    --background: 218 54% 5%;
+    --surface: 216 53% 9%;
+    --foreground: 206 53% 94%;
+
+    --card: 216 53% 9%;
+    --card-foreground: 206 53% 94%;
+    --popover: 216 53% 9%;
+    --popover-foreground: 206 53% 94%;
+
+    /* bioluminescence */
+    --primary: 172 73% 54%;
+    --primary-foreground: 218 54% 5%;
+
+    --secondary: 215 47% 16%;
+    --secondary-foreground: 206 53% 94%;
+
+    --lantern: 34 100% 66%;
+    --lantern-foreground: 218 54% 5%;
+
+    --muted: 215 47% 16%;
+    --muted-foreground: 210 26% 65%;
+    --accent: 215 47% 16%;
+    --accent-foreground: 206 53% 94%;
+
+    --destructive: 8 78% 62%;
+    --destructive-foreground: 218 54% 5%;
+
+    --border: 215 47% 16%;
+    --input: 215 47% 16%;
+    --ring: 172 73% 54%;
+
+    --sky-high: 220 55% 6%;
+    --sky-low: 212 52% 21%;
+    --sea-far: 196 58% 33%;
+    --sea-near: 213 62% 10%;
+    --sun: 34 100% 68%;
   }
 }
 
@@ -64,32 +101,185 @@
   * {
     @apply border-border;
   }
+
+  html {
+    /* Lenis drives scrolling; native smooth would fight it */
+    scroll-behavior: auto;
+    -webkit-text-size-adjust: 100%;
+  }
+
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground antialiased;
+    /* nothing may push the page sideways */
+    overflow-x: hidden;
+  }
+
+  /* clip beats hidden here: hidden on body creates a scroll container
+     that breaks position:sticky on the header */
+  @supports (overflow: clip) {
+    body {
+      overflow-x: clip;
+    }
+  }
+
+  ::selection {
+    @apply bg-primary text-primary-foreground;
+  }
+
+  :focus-visible {
+    @apply outline-none ring-2 ring-ring ring-offset-2 ring-offset-background;
+  }
+
+  /* Lenis */
+  html.lenis,
+  html.lenis body {
+    height: auto;
+  }
+  .lenis.lenis-smooth {
+    scroll-behavior: auto !important;
+  }
+  .lenis.lenis-stopped {
+    overflow: hidden;
+  }
+
+  /* Global escape hatch, driven by the resolved preference rather than
+     the media query directly — otherwise a visitor who explicitly asks
+     for animation still gets a frozen page.
+     `data-motion` is set before first paint by the inline script in
+     layout.jsx, so there's no flash either way. */
+  html[data-motion="reduced"] *,
+  html[data-motion="reduced"] *::before,
+  html[data-motion="reduced"] *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  /* The voyage is exempt. A ship that doesn't rise on the swell reads as
+     broken rather than calm, and slow ambient drift is not the kind of
+     motion the preference guards against — the scroll parallax is, and
+     that stays disabled. Everything here is slowed, not stopped. */
+  html[data-motion="reduced"] [data-ambient],
+  html[data-motion="reduced"] [data-ambient] * {
+    animation-duration: 24s !important;
+    animation-iteration-count: infinite !important;
   }
 }
 
-.h1 {
-  @apply text-6xl xl:text-[72px] xl:leading-[80px] tracking-[-2px] font-bold;
+@layer components {
+  .h1 {
+    @apply font-display font-semibold tracking-[-0.02em]
+           text-[clamp(2.25rem,7vw,4.5rem)] leading-[1.05];
+  }
+
+  .h2 {
+    @apply font-display font-semibold tracking-[-0.015em]
+           text-[clamp(1.75rem,4.5vw,3rem)] leading-[1.1];
+  }
+
+  .h3 {
+    @apply font-display font-semibold tracking-[-0.01em]
+           text-[clamp(1.25rem,2.5vw,1.75rem)] leading-[1.2];
+  }
+
+  .h4 {
+    @apply font-display font-semibold text-lg sm:text-xl leading-snug;
+  }
+
+  .subtitle {
+    @apply text-muted-foreground text-base sm:text-lg leading-relaxed text-pretty;
+  }
+
+  /* small uppercase mono label — used for section eyebrows */
+  .eyebrow {
+    @apply font-mono text-[0.6875rem] sm:text-xs uppercase tracking-[0.22em] text-primary;
+  }
+
+  .section-title {
+    @apply h2 flex items-center gap-x-3;
+  }
+
+  /* thin rule that trails an eyebrow */
+  .rule {
+    @apply h-px flex-1 bg-gradient-to-r from-border to-transparent;
+  }
+
+  /* A content surface floating over the voyage. Frosted rather than
+     opaque so the sky and water colour still bleeds through and shifts
+     as you sail — that colour change is the whole point of the scroll. */
+  /* Width is deliberately NOT set here — each section picks its own, and
+     two competing max-w-* utilities resolve by Tailwind's own source
+     order rather than the order you write them in the class attribute. */
+  /* Heavy frosting hid the ship completely. This is deliberately barely
+     frosted — enough to hold text contrast, thin enough that the hull and
+     the changing sky read straight through it. Text blocks that need more
+     backing use .plate below rather than thickening the whole surface. */
+  .deck {
+    @apply relative mx-auto w-full overflow-hidden rounded-3xl
+           border border-border/40 bg-background/45 shadow-2xl
+           shadow-black/30 backdrop-blur-[3px];
+  }
+
+  /* Local backing behind dense text, so the deck itself can stay clear. */
+  .plate {
+    @apply rounded-2xl bg-background/60 p-5 backdrop-blur-md sm:p-7;
+  }
+
+  .badge-stat {
+    @apply w-fit rounded-xl border border-border bg-surface/80 p-3 shadow-lg
+           backdrop-blur-md flex items-center gap-x-3 sm:p-4;
+  }
+
+  /* horizontally scrollable filter row — replaces the fixed-width tab grid
+     that used to overflow every phone */
+  .chip-row {
+    @apply flex gap-2 overflow-x-auto scroll-smooth pb-2
+           snap-x snap-mandatory [scrollbar-width:none]
+           [&::-webkit-scrollbar]:hidden;
+  }
+
+  .chip {
+    @apply snap-start shrink-0 rounded-full border border-border px-4
+           min-h-[44px] inline-flex items-center text-sm capitalize
+           transition-colors hover:border-primary/60;
+  }
+
+  .chip[data-active="true"] {
+    @apply bg-primary text-primary-foreground border-primary;
+  }
 }
 
-.subtitle {
-  @apply text-muted-foreground text-lg mb-8 font-light;
-}
+@layer utilities {
+  /* fades the edges of the marquee / chip row */
+  .mask-fade-x {
+    -webkit-mask-image: linear-gradient(
+      to right,
+      transparent,
+      black 6%,
+      black 94%,
+      transparent
+    );
+    mask-image: linear-gradient(
+      to right,
+      transparent,
+      black 6%,
+      black 94%,
+      transparent
+    );
+  }
 
-.section-title {
-  @apply text-4xl font-bold relative w-max flex items-center
-  justify-between gap-x-3 before:bg-dots_light before:dark:bg-dots_dark before:bg-no-repeat before:bg-center
-  before:w-[24px] before:h-[24px];
-}
+  .mask-fade-b {
+    -webkit-mask-image: linear-gradient(to bottom, black 55%, transparent);
+    mask-image: linear-gradient(to bottom, black 55%, transparent);
+  }
 
-.badge {
-  @apply z-10 w-fit lg:w-[210px] h-auto xl:h-[68px] bg-white dark:backdrop-blur-[44px] shadow-2xl
-  p-2 lg:p-4 rounded-[10px] flex items-center gap-x-1 lg:gap-x-3;
-}
-
-.swiper-horizontal > .section-pagination-bullets .swiper-pagination-bullet,
-.swiper-pagination-horizontal.swiper-pagination-bullets
-  .swiper-pagination-bullet {
-  @apply bg-primary;
+  /* notch / home-indicator safety */
+  .pb-safe {
+    padding-bottom: max(1rem, env(safe-area-inset-bottom));
+  }
+  .px-safe {
+    padding-left: max(1.25rem, env(safe-area-inset-left));
+    padding-right: max(1.25rem, env(safe-area-inset-right));
+  }
 }

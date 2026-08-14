@@ -1,135 +1,97 @@
-import {
-  SiAngular,
-  SiGit,
-  SiGithub,
-  SiGooglesearchconsole,
-  SiJavascript,
-  SiMaterialdesign,
-  SiMysql,
-  SiNextdotjs,
-  SiNumpy,
-  SiPandas,
-  SiRasa,
-  SiScikitlearn,
-  SiTailwindcss,
-  SiWordpress,
-} from "react-icons/si";
-import { Button, Tooltip } from "@nextui-org/react";
-import { FaCss3, FaHtml5, FaJava, FaPython, FaReact } from "react-icons/fa";
-import { forwardRef } from "@nextui-org/react";
-import { PencilRuler } from "lucide-react";
-const IconWithTooltip = forwardRef(({ Icon, tooltipContent }, ref) => (
-  <Tooltip
-    content={tooltipContent}
-    color="primary"
-    className="rounded-full mb-2"
-  >
-    <div ref={ref} className="hover:shadow-primary shadow-xl">
-      <Icon />
-    </div>
-  </Tooltip>
-));
+"use client";
 
-export default function Skills() {
+import { motion } from "framer-motion";
+
+import { useMotionPref } from "./motion/MotionPreference";
+import { skillGroups, softSkills } from "@/content/skills";
+import { skillIcons } from "./skills/iconMap";
+
+/**
+ * Compact inline chips rather than a grid of tiles.
+ *
+ * There are 40+ skills now and several are multi-word concepts. Square
+ * tiles forced every entry into the same footprint, so "AI Agents" and
+ * "End-to-End Data Pipelines" got the same box and the long ones wrapped
+ * to four lines. A chip sizes to its own label, so the whole set reads as
+ * one scannable block at roughly a third of the height.
+ */
+function SkillChip({ name, icon, index, reduced }) {
+  const Icon = skillIcons[icon];
+
   return (
-    <div>
-      <div className="flex items-center justify-center mb-10 gap-x-4">
-        <PencilRuler size={28} />
-        <h2 className="font-bold text-2xl ">Skills</h2>
-      </div>
-      <div className="w-full flex flex-col items-center justify-center ">
-        <h3 className="font-bold ">Programming Languages</h3>
-        <div className="mt-10 xl:mt-12 grid grid-cols-3 xl:grid-cols-6 justify-center items-center gap-y-8 gap-x-8 xl:gap-24 text-[40px]">
-          <IconWithTooltip Icon={FaPython} tooltipContent="Python" />
-          <IconWithTooltip Icon={FaJava} tooltipContent="Java" />
-          <IconWithTooltip Icon={SiJavascript} tooltipContent="JavaScript" />
-          <IconWithTooltip Icon={FaHtml5} tooltipContent="HTML5" />
-          <IconWithTooltip Icon={FaCss3} tooltipContent="CSS" />
-          <IconWithTooltip Icon={SiMysql} tooltipContent="CSS" />
-        </div>
-      </div>
-      <div className="w-full flex flex-col items-center justify-center mt-8">
-        <h3 className="font-bold ">Libraries and Framework</h3>
-        <div className="mt-10 xl:mt-12 grid grid-cols-4 xl:grid-cols-8 justify-center items-center gap-y-10 gap-x-10 xl:gap-24 text-[40px]">
-          <IconWithTooltip Icon={FaReact} tooltipContent="React" />
-          <IconWithTooltip Icon={SiNextdotjs} tooltipContent="Next" />
-          <IconWithTooltip Icon={SiAngular} tooltipContent="Angular" />
-          <IconWithTooltip Icon={SiTailwindcss} tooltipContent="Tailwind CSS" />
-          <IconWithTooltip Icon={SiNumpy} tooltipContent="Numpy" />
-          <IconWithTooltip Icon={SiPandas} tooltipContent="Pandas" />
-          <IconWithTooltip Icon={SiScikitlearn} tooltipContent="Scikit-learn" />
-          <IconWithTooltip
-            Icon={SiMaterialdesign}
-            tooltipContent="MaterialUI"
-          />
-        </div>
-      </div>
-      <div className="w-full flex flex-col items-center justify-center mt-8">
-        <h3 className="font-bold ">Tools and Technologies</h3>
-        <div className="mt-10 xl:mt-12 grid grid-cols-4 xl:grid-cols-5 justify-center items-center gap-y-10 gap-x-10 xl:gap-24 text-[40px]">
-          <IconWithTooltip Icon={SiGithub} tooltipContent="Github" />
-          <IconWithTooltip Icon={SiGit} tooltipContent="Git" />
-          <IconWithTooltip Icon={SiRasa} tooltipContent="RASA NLU" />
-          <IconWithTooltip
-            Icon={SiGooglesearchconsole}
-            tooltipContent="Google SEO"
-          />
-          <IconWithTooltip Icon={SiWordpress} tooltipContent="WordPress" />
-        </div>
-      </div>
-      <div className="w-full flex flex-col items-center justify-center mt-8">
-        <h2 className="font-bold ">Soft Skills</h2>
-        <div className="mt-5 px-5 xl:mt-12 grid grid-cols-2 xl:grid-cols-3 justify-center items-center gap-y-10 gap-x-10 xl:gap-24 text-[20px]">
-          <Button
-            size="sm"
-            className="bg-secondary h-[2.5rem] text-sm lg:text-lg rounded-sm text-white hover:shadow-primary shadow-lg"
-          >
-            Teamwork
-          </Button>
-          <Button
-            size="sm"
-            className="bg-secondary h-[2.5rem] text-sm lg:text-lg rounded-sm text-white hover:shadow-primary shadow-lg"
-          >
-            Problem-Solving
-          </Button>
-          <Button
-            size="sm"
-            className="bg-secondary h-[2.5rem] text-sm lg:text-lg rounded-sm text-white hover:shadow-primary shadow-lg"
-          >
-            Empathy
-          </Button>
-          <Button
-            size="sm"
-            className="bg-secondary h-[2.5rem] text-sm lg:text-lg rounded-sm text-white hover:shadow-primary shadow-lg"
-          >
-            Leadership
-          </Button>
-          <Button
-            size="sm"
-            className="bg-secondary h-[2.5rem] text-sm lg:text-lg rounded-sm text-white hover:shadow-primary shadow-lg"
-          >
-            Project Management
-          </Button>
-          <Button
-            size="sm"
-            className="bg-secondary h-[2.5rem] text-sm lg:text-lg rounded-sm text-white hover:shadow-primary shadow-lg"
-          >
-            Attention to Detail
-          </Button>
-        </div>
-      </div>
-    </div>
+    <motion.li
+      initial={{ opacity: 0, y: 8 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-30px" }}
+      transition={{
+        duration: reduced ? 0 : 0.3,
+        delay: reduced ? 0 : Math.min(index * 0.02, 0.24),
+      }}
+      className="group inline-flex items-center gap-1.5 rounded-full border
+                 border-border bg-surface/50 py-1.5 pl-2.5 pr-3
+                 transition-colors hover:border-primary/50"
+    >
+      {Icon ? (
+        <Icon
+          aria-hidden
+          className="shrink-0 text-[0.95rem] text-muted-foreground
+                     transition-colors group-hover:text-primary"
+        />
+      ) : null}
+      <span className="whitespace-nowrap text-xs text-foreground/85 sm:text-[0.8125rem]">
+        {name}
+      </span>
+    </motion.li>
   );
 }
 
-//  <p className="flex items-center justify-center">
-//    Programming: Experience in → Python; Knowledge about → Java, SQL, MySQL
-//    <br />
-//    Web Development: Experience in → HTML, CSS, React, Angular, JavaScript.
-//    <br />
-//    Technologies: Experience in → WordPress, Rasa NLU, Google SEO, Git, GitHub.
-//    <br />
-//    Soft Skills: Adept in Teamwork, Problem-Solving, , , Project
-//    Management, Attention to detail.
-//    <br />
-//  </p>;
+export default function Skills() {
+  const reduced = useMotionPref();
+
+  return (
+    <div className="space-y-8 sm:space-y-10">
+      {skillGroups.map((group) => (
+        <section key={group.title}>
+          <div className="mb-4 flex items-center gap-3">
+            <h3 className="font-mono text-xs uppercase tracking-[0.18em] text-muted-foreground">
+              {group.title}
+            </h3>
+            <span className="rule" />
+          </div>
+
+          <ul className="flex flex-wrap gap-2">
+            {group.items.map((skill, i) => (
+              <SkillChip
+                key={skill.name}
+                name={skill.name}
+                icon={skill.icon}
+                index={i}
+                reduced={reduced}
+              />
+            ))}
+          </ul>
+        </section>
+      ))}
+
+      <section>
+        <div className="mb-4 flex items-center gap-3">
+          <h3 className="font-mono text-xs uppercase tracking-[0.18em] text-muted-foreground">
+            Ways of working
+          </h3>
+          <span className="rule" />
+        </div>
+        <ul className="flex flex-wrap gap-2">
+          {softSkills.map((skill) => (
+            <li
+              key={skill}
+              className="inline-flex items-center rounded-full bg-muted/60 px-3 py-1.5
+                         text-xs text-muted-foreground sm:text-[0.8125rem]"
+            >
+              {skill}
+            </li>
+          ))}
+        </ul>
+      </section>
+    </div>
+  );
+}
