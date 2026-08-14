@@ -11,6 +11,7 @@ import MotionProvider from "@/components/motion/MotionProvider";
 import { MotionPreferenceProvider } from "@/components/motion/MotionPreference";
 import VoyageBackground from "@/components/voyage/VoyageBackground";
 import JsonLd from "@/components/JsonLd";
+import { Analytics } from "@vercel/analytics/next";
 
 /**
  * Resolves the motion preference before first paint, the same way
@@ -128,6 +129,11 @@ export default function RootLayout({ children }) {
           </MotionProvider>
         </MotionPreferenceProvider>
         </ThemeProvider>
+
+        {/* Outside the providers: it renders nothing, and it should keep
+            reporting even if something above it throws. Only sends data
+            from a Vercel deployment — in dev it just logs to the console. */}
+        <Analytics />
       </body>
     </html>
   );
