@@ -19,10 +19,7 @@ export const projects = [
     description:
       "A web-based chatbot using Retrieval Augmented Generation with chat history as context, giving accurate answers to frequently asked customer questions.",
     image: "/work/10.webp",
-    // FIXME(rexon): the old projectData.jsx pointed this at the
-    // mealsDeliveryWebapp repo — a copy-paste from the entry above it.
-    // Add the real repo URL here and it will render again.
-    github: "",
+    github: "https://github.com/Rexon-Pambujya/FAQChatBotRAG",
     tags: ["Gen AI", "RAG", "LangChain", "LLM", "Python"],
     featured: true,
   },
