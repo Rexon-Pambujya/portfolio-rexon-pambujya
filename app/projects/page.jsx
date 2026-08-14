@@ -1,55 +1,90 @@
 "use client";
-import ProjectCard from "@/components/ProjectCard";
-import projectData from "@/components/projectData";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { useState } from "react";
-const uniqueCategories = [
-  "all projects",
-  ...new Set(projectData.map((item) => item.category)),
-];
 
-export default function Projects() {
-  const [categories, setCategories] = useState(uniqueCategories);
-  const [category, setCategory] = useState("all projects");
-  const filteredProjects = projectData.filter((project) => {
-    return category === "all projects"
-      ? project
-      : project.category === category;
-  });
+import { useMemo, useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+
+import { useMotionPref } from "@/components/motion/MotionPreference";
+
+import ProjectCard from "@/components/ProjectCard";
+import Reveal from "@/components/motion/Reveal";
+import { projects, categories } from "@/content/projects";
+
+export default function ProjectsPage() {
+  const [active, setActive] = useState("all");
+  const reduced = useMotionPref();
+
+  const filtered = useMemo(
+    () =>
+      active === "all"
+        ? projects
+        : projects.filter((p) => p.category === active),
+    [active]
+  );
+
+  // Hide a filter that would return nothing.
+  const shown = useMemo(
+    () =>
+      categories.filter(
+        (c) => c.id === "all" || projects.some((p) => p.category === c.id)
+      ),
+    []
+  );
+
   return (
-    <section className="min-h-screen pt-12">
-      <div className="container mx">
-        <h2 className="section-title mb-8 xl:mb-16 text-center mx-auto">
-          My Projects
-        </h2>
-        <Tabs defaultValue={category} className="mb-24 xl:mb-48">
-          <TabsList
-            className="w-full grid h-full md:grid-cols-6 lg:max-w-[640px]
-          mb-12 mx-auto md:border dark:border-none hover:shadow-primary shadow-inner gap-y-2"
-          >
-            {categories.map((category, index) => {
-              return (
-                <TabsTrigger
-                  onClick={() => setCategory(category)}
-                  value={category}
-                  key={index}
-                  className="capitalize w-[162px] md:w-auto"
-                >
-                  {category}
-                </TabsTrigger>
-              );
-            })}
-          </TabsList>
-          <div className="text-lg xl:mt-8 grid grid-cols-1 lg:grid-cols-3 gap-4 ">
-            {filteredProjects.map((project, index) => {
-              return (
-                <TabsContent value={category} key={index}>
-                  <ProjectCard project={project} />
-                </TabsContent>
-              );
-            })}
-          </div>
-        </Tabs>
+    <section className="deck my-5 max-w-6xl py-20 sm:my-8 sm:py-28">
+      <div className="container">
+        <Reveal className="mb-10 sm:mb-14">
+          <p className="eyebrow mb-3">Portfolio</p>
+          <h1 className="section-title">Projects</h1>
+          <p className="subtitle mt-4 max-w-xl">
+            {projects.length} things I've designed, built, or broken and
+            rebuilt. Most have source on GitHub.
+          </p>
+        </Reveal>
+
+        {/* Was a 6-column grid of fixed 162px tabs — 972px of triggers
+            stacked into a very tall block on any phone. Now a snap rail. */}
+        <div className="chip-row mask-fade-x mb-10 sm:mb-12" role="tablist">
+          {shown.map((cat) => (
+            <button
+              key={cat.id}
+              type="button"
+              role="tab"
+              aria-selected={active === cat.id}
+              data-active={active === cat.id}
+              onClick={() => setActive(cat.id)}
+              className="chip"
+            >
+              {cat.label}
+            </button>
+          ))}
+        </div>
+
+        <motion.ul
+          layout={!reduced}
+          className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 lg:gap-6"
+        >
+          <AnimatePresence mode="popLayout">
+            {filtered.map((project, i) => (
+              <motion.li
+                key={project.slug}
+                layout={!reduced}
+                initial={{ opacity: 0, scale: 0.97 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.97 }}
+                transition={{ duration: reduced ? 0 : 0.25 }}
+              >
+                <ProjectCard project={project} index={i} priority={i < 3} />
+              </motion.li>
+            ))}
+          </AnimatePresence>
+        </motion.ul>
+
+        {filtered.length === 0 ? (
+          <p className="py-16 text-center text-muted-foreground">
+            Nothing here yet.
+          </p>
+        ) : null}
       </div>
     </section>
   );

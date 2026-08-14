@@ -1,66 +1,118 @@
-import Form from "@/components/Form";
-import { AnimatedText } from "@/components/ui/animatedText";
-import { Linkedin, MailIcon, PhoneCall } from "lucide-react";
+import { Linkedin, MailIcon, MapPin, PhoneCall } from "lucide-react";
 import Link from "next/link";
-import React from "react";
 
-export default function Contacts() {
+import ContactForm from "@/components/ContactForm";
+import Reveal from "@/components/motion/Reveal";
+import Socials from "@/components/Socials";
+import { profile } from "@/content/profile";
+import { socials } from "@/content/socials";
+
+export const metadata = {
+  title: "Contact",
+  description: `Get in touch with ${profile.name} — ${profile.role} based in ${profile.location}.`,
+};
+
+const linkedin = socials.find((s) => s.icon === "linkedin");
+
+export default function ContactPage() {
   return (
-    <section>
-      <div className="container mx-auto">
-        <div className="grid xl:grid-cols-2 pt-12 xl:h-[400px] mb-6 xl:mb-24">
-          <div className="flex flex-col justify-center">
-            <div className="flex items-center gap-x-4 text-primary text-lg mb-4">
-              <span className="w-[30px] h-[2px] bg-primary "></span>
-              Say Hello👋
-            </div>
-            <AnimatedText
-              className="h1 max-w-md mb-8"
-              text="Let's Work Together"
-            />
-            <p className="subtitle max-w-[400px]">
-              Please feel free to reach out if you have any questions or if you
-              are looking to hire someone for a work gig. I would love to hear
-              from you. Looking forward to hearing from you.
-              <br />
-              Thank you.
-            </p>
+    <section className="deck my-5 max-w-6xl py-20 sm:my-8 sm:py-28">
+      <div className="container">
+        {/* was `grid xl:grid-cols-2` with zero sm/md/lg classes, so it was a
+            single narrow column from 0 to 1279px */}
+        <div className="grid gap-12 lg:grid-cols-[0.85fr_1fr] lg:gap-16">
+          <div>
+            <Reveal>
+              <p className="eyebrow mb-4">Say hello</p>
+              <h1 className="h1 text-balance">Let's work together</h1>
+              <p className="subtitle mt-6 max-w-md">
+                Reach out about a role, a project, or anything you think I'd
+                find interesting. I read every message and reply to most within
+                a couple of days.
+              </p>
+            </Reveal>
+
+            <Reveal delay={0.1}>
+              <ul className="mt-10 space-y-5">
+                <li>
+                  <Link
+                    href={`mailto:${profile.email}`}
+                    className="group flex items-center gap-4"
+                  >
+                    <span
+                      className="grid h-11 w-11 shrink-0 place-items-center rounded-full
+                                 border border-border text-primary transition-colors
+                                 group-hover:border-primary/50 group-hover:bg-primary/10"
+                    >
+                      <MailIcon size={17} />
+                    </span>
+                    <span className="break-all text-sm sm:text-base">
+                      {profile.email}
+                    </span>
+                  </Link>
+                </li>
+
+                {linkedin ? (
+                  <li>
+                    <Link
+                      href={linkedin.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="group flex items-center gap-4"
+                    >
+                      <span
+                        className="grid h-11 w-11 shrink-0 place-items-center rounded-full
+                                   border border-border text-primary transition-colors
+                                   group-hover:border-primary/50 group-hover:bg-primary/10"
+                      >
+                        <Linkedin size={17} />
+                      </span>
+                      <span className="text-sm sm:text-base">
+                        /in/rexon-pambujya
+                      </span>
+                    </Link>
+                  </li>
+                ) : null}
+
+                {/* the old page rendered a phone icon next to an empty div */}
+                {profile.phone ? (
+                  <li>
+                    <Link
+                      href={`tel:${profile.phone.replace(/\s/g, "")}`}
+                      className="group flex items-center gap-4"
+                    >
+                      <span
+                        className="grid h-11 w-11 shrink-0 place-items-center rounded-full
+                                   border border-border text-primary transition-colors
+                                   group-hover:border-primary/50 group-hover:bg-primary/10"
+                      >
+                        <PhoneCall size={17} />
+                      </span>
+                      <span className="text-sm sm:text-base">{profile.phone}</span>
+                    </Link>
+                  </li>
+                ) : null}
+
+                <li className="flex items-center gap-4">
+                  <span className="grid h-11 w-11 shrink-0 place-items-center rounded-full border border-border text-primary">
+                    <MapPin size={17} />
+                  </span>
+                  <span className="text-sm text-muted-foreground sm:text-base">
+                    {profile.location}
+                  </span>
+                </li>
+              </ul>
+
+              <Socials
+                containerStyles="mt-8 flex items-center -ml-3"
+                iconsStyles="text-xl text-muted-foreground hover:text-primary hover:bg-muted"
+              />
+            </Reveal>
           </div>
-          <div
-            className="hidden xl:flex w-full bg-illustration_light 
-          dark:bg-illustration_dark bg-contain bg-top bg-no-repeat"
-          ></div>
-        </div>
-        <div className="grid xl:grid-cols-1 mb-24 xl:mb-32">
-          <div
-            className="flex flex-col gap-y-4 xl:gap-y-14 mb-12 xl:mb-24 text-base
-          xl:text-lg
-          "
-          >
-            <Link href="mailto:rexonpambujya2001@gmail.com">
-              <div className="flex items-center gap-x-8">
-                <MailIcon size={18} className="text-primary" />
-                <div>rexonpambujya2001@gmail.com</div>
-              </div>
-            </Link>
-            <Link
-              href="https://www.linkedin.com/in/rexon-pambujya/"
-              target="_blank"
-            >
-              <div className="flex items-center gap-x-8">
-                <Linkedin
-                  size={18}
-                  className="text-primary"
-                  href="https://www.linkedin.com/in/rexon-pambujya/"
-                />
-                <div>Rexon-Pambujya</div>
-              </div>
-            </Link>
-            <div className="flex items-center gap-x-8">
-              <PhoneCall size={18} className="text-primary" />
-              <div></div>
-            </div>
-          </div>
+
+          <Reveal delay={0.15}>
+            <ContactForm />
+          </Reveal>
         </div>
       </div>
     </section>

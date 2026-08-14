@@ -1,21 +1,31 @@
 "use client";
 
-import { Button } from "./ui/button";
-import { MoonIcon, SunIcon } from "@radix-ui/react-icons";
-
+import { useEffect, useState } from "react";
 import { useTheme } from "next-themes";
+import { Moon, Sun } from "lucide-react";
+
 export default function ThemeToggler() {
-  const { theme, setTheme } = useTheme();
+  const { resolvedTheme, setTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+
+  // The server can't know the stored theme, so the icon is only correct
+  // after mount. Rendering a fixed placeholder keeps hydration matched.
+  useEffect(() => setMounted(true), []);
+
+  const isDark = mounted && resolvedTheme === "dark";
+
   return (
-    <div>
-      <Button
-        variant="outline"
-        size="icon"
-        onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-      >
-        <SunIcon className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
-        <MoonIcon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
-      </Button>
-    </div>
+    <button
+      type="button"
+      onClick={() => setTheme(isDark ? "light" : "dark")}
+      aria-label={isDark ? "Switch to light theme" : "Switch to dark theme"}
+      title={isDark ? "Switch to light theme" : "Switch to dark theme"}
+      className="inline-flex h-11 w-11 items-center justify-center rounded-full
+                 border border-border text-muted-foreground transition-all duration-300
+                 hover:border-primary hover:text-primary
+                 hover:shadow-[0_0_22px_-4px_hsl(var(--primary)/0.75)]"
+    >
+      {isDark ? <Sun size={16} /> : <Moon size={16} />}
+    </button>
   );
 }

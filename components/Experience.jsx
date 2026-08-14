@@ -1,95 +1,171 @@
 "use client";
 
-import { motion, useScroll } from "framer-motion";
-import { Briefcase } from "lucide-react";
 import { useRef } from "react";
+import {
+  motion,
+  useScroll,
+  useSpring,
+  useTransform,
+} from "framer-motion";
 
-const Details = ({ position, company, companyLink, time, address, work }) => {
+import { useMotionPref } from "./motion/MotionPreference";
+
+import Reveal from "./motion/Reveal";
+import { experience } from "@/content/experience";
+
+/**
+ * A node on the rail.
+ *
+ * Each one fills as the rail's fill line reaches it, rather than being
+ * statically styled by whether the job is current. Previously the current
+ * job had a filled pulsing dot and the rest were permanently hollow, so
+ * the dots and the line told two different stories.
+ *
+ * `mark` is where this node sits along the rail, 0..1.
+ */
+function RailNode({ progress, mark }) {
+  // fill over a short band ending at the node, so the dot completes just
+  // as the line passes it rather than lagging behind
+  const range = [Math.max(0, mark - 0.08), mark];
+
+  const fill = useTransform(progress, range, [0, 1], { clamp: true });
+  const scale = useTransform(fill, [0, 1], [0.55, 1]);
+  const ringOpacity = useTransform(fill, [0, 1], [0.35, 1]);
+
   return (
-    <li className="first:mt-0 mb-5 w-full mx-auto xl:flex-grow flex flex-col items-center xs:text-base text-justify justify-between">
-      <div>
-        <h2 className="capitalize font-bold xl:text-2xl ">
-          {position}&nbsp;
-          <a
-            href={companyLink}
-            target="_blank"
-            className="text-primary capitalize"
-          >
-            @{company}
-          </a>
-        </h2>
-        <span className="capitalize font-medium text-muted-foreground">
-          {time} | {address}
-        </span>
-        <p className="font-light w-full">
-          {work.split("\n").map((line, index) => (
-            <span key={index}>
-              {line}
-              {index !== work.split("\n").length - 1 && <br />}
-            </span>
-          ))}
-        </p>
-      </div>
-    </li>
+    <span
+      aria-hidden
+      className="absolute left-0 top-1.5 grid h-[15px] w-[15px] place-items-center sm:h-[19px] sm:w-[19px]"
+    >
+      {/* These stay scroll-linked even under reduced motion: the values
+          are derived from scroll position, not time, and swapping them
+          for constants would render a different style on the client than
+          the server produced. */}
+      <motion.span
+        style={{ opacity: ringOpacity }}
+        className="absolute inset-0 rounded-full border-2 border-primary bg-background"
+      />
+      <motion.span
+        style={{ scale, opacity: fill }}
+        className="absolute inset-[3px] rounded-full bg-primary"
+      />
+    </span>
   );
-};
+}
 
 export default function Experience() {
   const ref = useRef(null);
-  // const completion = useScrollProgress(ref);
+  const reduced = useMotionPref();
+
   const { scrollYProgress } = useScroll({
     target: ref,
-    offset: ["start end", "center start"],
+    offset: ["start 80%", "end 65%"],
   });
-  const scaleY = scrollYProgress;
+  const railProgress = useSpring(scrollYProgress, {
+    stiffness: 110,
+    damping: 28,
+    restDelta: 0.001,
+  });
+
+  const n = experience.length;
+
   return (
-    <div className="my-34">
-      <div className="flex items-center justify-center mb-10 gap-x-4">
-        <Briefcase size={28} />
-        <h2 className="font-bold text-2xl ">Experience</h2>
-      </div>
-      <div ref={ref} className="w-[75%] mx-auto lg:w-[90%] relative">
-        <motion.div
-          className="hidden xl:flex absolute left-8  top-0 w-[4px] h-full bg-primary origin-top"
-          style={{ scaleY }}
-          transition={{ type: "inertia" }}
-        />
-        <ul className="w-full flex flex-col items-start justify-between xl:ml-20 xs:ml-0.5">
-          <Details
-            company="XEMI"
-            address="Mumbai"
-            position="Software Engineering Intern"
-            time="Oct 2023–Jan 2024"
-            companyLink="https://www.xemi.io/"
-            work={` HSN Recommender System and EwayBill Module.
-• Prepared training data for the Machine Learning model by annotating the essential attributes in the 250-plus documents. I engaged in fine-tuning of OpenAI model (GPT-3.5) utilizing the HSN dataset.
-• I trained a machine learning model on HSN documents using the Langchain framework. This improved HSN code prediction accuracy and streamlined the code assignment process.
-• Created an EwayBill module using HTML, CSS and angular to streamline and automate filling out the E-waybills (bill required for transporting shipments) form, reducing the manual workload.`}
-          />
-          <Details
-            company="Cere Labs"
-            address="Mumbai"
-            position="Data Science Intern"
-            time="Jul 2022 – Jul 2023"
-            companyLink="https://www.cerelabs.com/"
-            work={`Clustering of Indian Addresses to derive Business Insights.
-            • Analyzed and processed Indian address data, transformed it into a structured format, assigned precise geo-coordinates, and clustered locations.
-• Demonstrated the potential of machine learning algorithms to cluster geographic coordinates, leading to significant reductions in transportation costs and improved delivery times.`}
-          />
-          <Details
-            company="Blitzar Tech Pvt Ltd."
-            address="Mumbai"
-            position="Associate Software Engineer"
-            time="Feb 2024 – Present"
-            companyLink=""
-            work={`• Worked on a web application to modernize the salary processing system for BMC schools, replacing manual file-based processes with an online system.
-• Built backend services using Python, integrating REST APIs for seamless data processing.
-• I worked on developing several frontend modules using modern technologies React.js, Next.js, HTML, and CSS, to enhance navigation and user experience.
-• Significantly improved efficiency and accuracy in salary disbursement for BMC schools.
-`}
-          />
-        </ul>
-      </div>
+    <div ref={ref} className="relative">
+      {/* rail track. Was `hidden xl:flex`, so it never appeared below
+          1280px — which is where most people actually read this. */}
+      <div
+        aria-hidden
+        className="absolute bottom-2 left-[7px] top-2 w-px bg-border sm:left-[9px]"
+      />
+      <motion.div
+        aria-hidden
+        style={{ scaleY: reduced ? scrollYProgress : railProgress }}
+        className="absolute bottom-2 left-[7px] top-2 w-px origin-top
+                   bg-gradient-to-b from-primary to-lantern sm:left-[9px]"
+      />
+
+      <ol className="space-y-10 sm:space-y-14">
+        {experience.map((job, i) => (
+          <Reveal as="li" key={`${job.company}-${job.start}`} from="left" delay={i * 0.08}>
+            <article className="relative max-w-[70ch] pl-8 sm:pl-12">
+              <RailNode
+                progress={reduced ? scrollYProgress : railProgress}
+                mark={n > 1 ? i / (n - 1) : 0}
+              />
+
+              <div className="mb-1 flex flex-wrap items-baseline gap-x-2">
+                <h3 className="h4">{job.role}</h3>
+                <span className="text-muted-foreground">at</span>
+                {job.url ? (
+                  <a
+                    href={job.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="font-medium text-primary underline-offset-4 hover:underline"
+                  >
+                    {job.company}
+                  </a>
+                ) : (
+                  <span className="font-medium text-primary">{job.company}</span>
+                )}
+                {job.current ? (
+                  <span
+                    className="ml-1 rounded-full bg-primary/15 px-2 py-0.5 font-mono
+                               text-[0.625rem] uppercase tracking-wider text-primary"
+                  >
+                    Current
+                  </span>
+                ) : null}
+              </div>
+
+              <p className="mb-4 font-mono text-xs text-muted-foreground">
+                {job.start} – {job.end}
+                <span className="mx-2 opacity-40">/</span>
+                {job.location}
+              </p>
+
+              {job.summary ? (
+                <p className="mb-3 text-pretty text-muted-foreground">
+                  {job.summary}
+                </p>
+              ) : null}
+
+              {job.highlights?.length ? (
+                <ul className="space-y-2">
+                  {job.highlights.map((point, j) => (
+                    <li
+                      key={j}
+                      className="relative pl-5 text-pretty text-sm leading-relaxed
+                                 text-muted-foreground sm:text-base"
+                    >
+                      <span
+                        aria-hidden
+                        className="absolute left-0 top-[0.6em] h-1 w-1 rounded-full bg-primary/60"
+                      />
+                      {point}
+                    </li>
+                  ))}
+                </ul>
+              ) : null}
+
+              {job.stack?.length ? (
+                <ul className="mt-4 flex flex-wrap gap-1.5">
+                  {job.stack.map((tech) => (
+                    <li
+                      key={tech}
+                      className="rounded-full border border-border px-2.5 py-1
+                                 font-mono text-[0.625rem] uppercase tracking-wider
+                                 text-muted-foreground"
+                    >
+                      {tech}
+                    </li>
+                  ))}
+                </ul>
+              ) : null}
+            </article>
+          </Reveal>
+        ))}
+      </ol>
     </div>
   );
 }
