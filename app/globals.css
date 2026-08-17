@@ -311,19 +311,18 @@ html[data-motion="reduced"] .intro-curtain[data-ready="true"] {
   /* Width is deliberately NOT set here — each section picks its own, and
      two competing max-w-* utilities resolve by Tailwind's own source
      order rather than the order you write them in the class attribute. */
-  /* Opaque, and it has to be.
-     A translucent deck lets the animating ocean through, so the backdrop
-     changes every frame and the text's antialiased edges recomposite
-     against shifting colour — measured as 8 distinct frames out of 8 on
-     a completely idle page, which reads as the text shimmering. Tested
-     at 45%, 75% and 88%, with and without the blur, and with the text
-     promoted to its own layer: all still shimmered. Only full opacity
-     is stable.
-     The ocean is still fully visible in the gaps between decks, beside
-     them, and across the hero — just not through the words. */
+  /* Translucent by choice, with a known cost.
+     Letting the animating ocean through means the backdrop changes every
+     frame, so text edges recomposite continuously — measured at 8
+     distinct frames out of 8 on a fully idle page. Opacity was the only
+     thing that stopped it (45/75/88% and layer promotion all still
+     shimmered), but opaque decks lost the look, so the translucency
+     stays and the shimmer is accepted.
+     Don't "fix" the shimmer by nudging this value — it was tested. */
   .deck {
     @apply relative mx-auto w-full overflow-hidden rounded-3xl
-           border border-border/60 bg-background shadow-2xl shadow-black/40;
+           border border-border/40 bg-background/45 shadow-2xl
+           shadow-black/30 backdrop-blur-[3px];
   }
 
   /* Local backing behind dense text, so the deck itself can stay clear. */

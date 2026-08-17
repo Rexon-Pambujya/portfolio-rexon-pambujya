@@ -16,12 +16,19 @@ import { useMotionPref } from "./MotionPreference";
  * query causes hydration mismatches, because the server always guesses
  * the non-reduced branch.
  */
+/**
+ * Travel is deliberately short. At 28px the movement was long enough to
+ * read as the text shaking into place rather than easing in, especially
+ * for anything already near the viewport when it triggers. Use `fade`
+ * for content that's on screen the moment a page opens — a heading that
+ * slides after it's already visible always looks wrong.
+ */
 const FROM = {
-  bottom: { y: 28, x: 0 },
-  top: { y: -28, x: 0 },
-  left: { x: -38, y: 0 },
-  right: { x: 38, y: 0 },
-  scale: { x: 0, y: 0, scale: 0.94 },
+  bottom: { y: 16, x: 0 },
+  top: { y: -16, x: 0 },
+  left: { x: -22, y: 0 },
+  right: { x: 22, y: 0 },
+  scale: { x: 0, y: 0, scale: 0.96 },
   fade: { x: 0, y: 0 },
 };
 
