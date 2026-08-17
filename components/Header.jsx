@@ -28,7 +28,7 @@ export default function Header() {
     <header
       className={`sticky top-0 z-40 transition-all duration-300 ${
         scrolled
-          ? "border-b border-border bg-background/80 py-3 backdrop-blur-xl"
+          ? "border-b border-border bg-background py-3"
           : "border-b border-transparent py-5"
       }`}
     >

@@ -311,14 +311,19 @@ html[data-motion="reduced"] .intro-curtain[data-ready="true"] {
   /* Width is deliberately NOT set here — each section picks its own, and
      two competing max-w-* utilities resolve by Tailwind's own source
      order rather than the order you write them in the class attribute. */
-  /* Heavy frosting hid the ship completely. This is deliberately barely
-     frosted — enough to hold text contrast, thin enough that the hull and
-     the changing sky read straight through it. Text blocks that need more
-     backing use .plate below rather than thickening the whole surface. */
+  /* Opaque, and it has to be.
+     A translucent deck lets the animating ocean through, so the backdrop
+     changes every frame and the text's antialiased edges recomposite
+     against shifting colour — measured as 8 distinct frames out of 8 on
+     a completely idle page, which reads as the text shimmering. Tested
+     at 45%, 75% and 88%, with and without the blur, and with the text
+     promoted to its own layer: all still shimmered. Only full opacity
+     is stable.
+     The ocean is still fully visible in the gaps between decks, beside
+     them, and across the hero — just not through the words. */
   .deck {
     @apply relative mx-auto w-full overflow-hidden rounded-3xl
-           border border-border/40 bg-background/45 shadow-2xl
-           shadow-black/30 backdrop-blur-[3px];
+           border border-border/60 bg-background shadow-2xl shadow-black/40;
   }
 
   /* Local backing behind dense text, so the deck itself can stay clear. */

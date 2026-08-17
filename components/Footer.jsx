@@ -6,7 +6,7 @@ import { navLinks } from "@/content/site";
 
 export default function Footer() {
   return (
-    <footer className="relative border-t border-border bg-background/85 backdrop-blur-2xl">
+    <footer className="relative border-t border-border bg-background">
       <div className="container py-12">
         <div className="flex flex-col items-center gap-8 sm:flex-row sm:items-start sm:justify-between">
           <div className="text-center sm:text-left">
