@@ -8,7 +8,6 @@ import ThemeProvider from "@/components/ThemeProvider";
 import SmoothScroll from "@/components/motion/SmoothScroll";
 import ScrollProgress from "@/components/motion/ScrollProgress";
 import NavProgress from "@/components/motion/NavProgress";
-import RouteCurtain from "@/components/motion/RouteCurtain";
 import IntroCurtain from "@/components/motion/IntroCurtain";
 import MotionProvider from "@/components/motion/MotionProvider";
 import { MotionPreferenceProvider } from "@/components/motion/MotionPreference";
@@ -120,7 +119,6 @@ export default function RootLayout({ children }) {
             <SmoothScroll />
             <ScrollProgress />
             <NavProgress />
-            <RouteCurtain />
 
             {/* one continuous scene behind every page */}
             <VoyageBackground />

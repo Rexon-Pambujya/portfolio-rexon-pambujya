@@ -7,8 +7,11 @@ import { profile } from "@/content/profile";
  * The animation is CSS, so this markup is in the first painted frame
  * and clears itself whether or not JavaScript ever runs.
  *
- * RouteCurtain handles the other case: client-side navigation between
- * routes, where there is no document load to cover.
+ * Document load only. Client-side navigation between routes gets no
+ * curtain — a full-screen cover on every header click read as the thing
+ * flashing up twice per visit, and the route was already rendered by the
+ * time it played, so it added latency rather than hiding any. NavProgress
+ * covers that case with a top bar instead.
  */
 export default function IntroCurtain() {
   return (

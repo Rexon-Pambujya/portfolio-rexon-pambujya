@@ -37,6 +37,8 @@ export function MotionPreferenceProvider({ children }) {
   const [systemReduced, setSystemReduced] = useState(false);
   // null = follow the OS, "full" = always animate, "reduced" = never
   const [override, setOverrideState] = useState(null);
+  // false until the real preference has been read — see the write effect
+  const [resolved, setResolved] = useState(false);
 
   useEffect(() => {
     const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -51,6 +53,7 @@ export function MotionPreferenceProvider({ children }) {
       /* private mode — just follow the OS */
     }
 
+    setResolved(true);
     return () => mq.removeEventListener("change", sync);
   }, []);
 
@@ -66,10 +69,21 @@ export function MotionPreferenceProvider({ children }) {
 
   const reduced = override ? override === "reduced" : systemReduced;
 
-  // Lets CSS respond to the override, not just the media query.
+  /**
+   * Lets CSS respond to the override, not just the media query.
+   *
+   * Gated on `resolved` deliberately. The inline script in layout.jsx has
+   * already written the correct value before first paint; writing the
+   * hydration-safe default here first would set data-motion to "full",
+   * then correct it back a tick later. Every change to the attribute
+   * restarts any CSS animation keyed on it, so that flip-flop replayed
+   * the intro curtain — visible only to reduced-motion visitors, since
+   * for everyone else both values happened to agree.
+   */
   useEffect(() => {
+    if (!resolved) return;
     document.documentElement.dataset.motion = reduced ? "reduced" : "full";
-  }, [reduced]);
+  }, [resolved, reduced]);
 
   const value = useMemo(
     () => ({ reduced, override, setOverride, systemReduced }),
