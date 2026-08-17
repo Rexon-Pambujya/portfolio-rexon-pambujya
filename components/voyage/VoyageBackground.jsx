@@ -166,7 +166,11 @@ export default function VoyageBackground() {
       lerp3(ca.skyLow, cb.skyLow, k, cSkyLow);
       lerp3(ca.sun, cb.sun, k, cSun);
 
-      const horizon = lerp(a.horizon, b.horizon, k);
+      // Narrow layouts get a much higher horizon. The headline runs
+      // full-bleed there, so the ship can't be moved clear of it
+      // sideways — lifting the waterline puts the ship in the sky band
+      // above the copy instead, and the text sits over open water.
+      const horizon = lerp(a.horizon, b.horizon, k) + (narrow ? 0.14 : 0);
       const wind = lerp(a.wind, b.wind, k);
       const advance = lerp(a.advance, b.advance, k);
       let sunX = lerp(a.sun[0], b.sun[0], k);
@@ -208,8 +212,18 @@ export default function VoyageBackground() {
       /* ---- overlays ---- */
       const ship = shipRef.current;
       if (ship) {
-        const x = lerp(a.ship.x, b.ship.x, k);
-        const s = lerp(a.ship.scale, b.ship.scale, k);
+        let x = lerp(a.ship.x, b.ship.x, k);
+        let s = lerp(a.ship.scale, b.ship.scale, k);
+
+        // Narrow layouts run the headline full-bleed, so the ship has to
+        // move out to the edge and shrink or it lands on top of the name.
+        // 0.86 keeps the hull fully on screen: the container floors at
+        // 118px wide, so at 0.75 scale its half-width is ~11% of a 390px
+        // viewport and anything further right clips the bow.
+        if (narrow) {
+          x = Math.min(0.86, x + 0.18);
+          s *= 0.75;
+        }
 
         // Sample the surface under the hull so the ship rides the same
         // swell the shader draws, rather than bobbing on its own clock.

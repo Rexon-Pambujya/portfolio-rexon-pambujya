@@ -14,8 +14,10 @@ export const site = {
   title: `${profile.name} — ${profile.role}`,
   shortTitle: profile.name,
   // Kept under ~160 characters so search engines show it whole.
+  // Names both target roles — the <title> stays the single clean role, so
+  // this is the only place "Data Scientist" can surface in search results.
   description:
-    "AI/ML Engineer in Mumbai with 3+ years building LLM applications, RAG systems, AI agents and production ML. Python, LangChain, LangGraph, FastAPI.",
+    "AI/ML Engineer and Data Scientist in Mumbai. 3+ years building ML models, LLM applications, RAG systems and AI agents. Python, LangChain, FastAPI.",
 
   // Ordered by the roles being targeted, then the tools recruiters filter on.
   keywords: [

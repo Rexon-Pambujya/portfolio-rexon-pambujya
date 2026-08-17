@@ -39,8 +39,10 @@ export const profile = {
   /** Hero copy. Keep the headline short — it sits over the ocean. */
   kicker: "AI/ML Engineer · Mumbai",
   headline: "Rexon Pambujya",
+  // "ML models" first on purpose: without it the hero reads as GenAI-only,
+  // which undersells the ML Engineer and Data Scientist side.
   tagline:
-    "I build LLM applications, RAG systems and agentic workflows that hold up in production.",
+    "I build ML models, LLM applications, RAG systems and agentic workflows that hold up in production.",
 
   bio: [
     "**AI/ML Engineer** with 3+ years building **machine learning models**, **GenAI applications**, **RAG systems** and **agentic AI workflows** — most recently as a **Data Scientist** at NeoSOFT.",
