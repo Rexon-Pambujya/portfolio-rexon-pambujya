@@ -18,27 +18,27 @@ export default function ProjectsPage() {
       active === "all"
         ? projects
         : projects.filter((p) => p.category === active),
-    [active]
+    [active],
   );
 
   // Hide a filter that would return nothing.
   const shown = useMemo(
     () =>
       categories.filter(
-        (c) => c.id === "all" || projects.some((p) => p.category === c.id)
+        (c) => c.id === "all" || projects.some((p) => p.category === c.id),
       ),
-    []
+    [],
   );
 
   return (
     <section className="deck my-5 max-w-6xl py-20 sm:my-8 sm:py-28">
       <div className="container">
-        <Reveal className="mb-10 sm:mb-14">
+        <Reveal from="fade" className="mb-10 sm:mb-14">
           <p className="eyebrow mb-3">Portfolio</p>
           <h1 className="section-title">Projects</h1>
           <p className="subtitle mt-4 max-w-xl">
-            {projects.length} things I've designed, built, or broken and
-            rebuilt. Most have source on GitHub.
+            Things I've designed, built, or broken and rebuilt. Most have source
+            on GitHub.
           </p>
         </Reveal>
 

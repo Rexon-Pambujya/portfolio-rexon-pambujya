@@ -21,7 +21,7 @@ export default function WritingPage() {
   return (
     <section className="deck my-5 max-w-4xl py-20 sm:my-8 sm:py-28">
       <div className="container">
-        <Reveal from="left" className="mb-10 sm:mb-14">
+        <Reveal from="fade" className="mb-10 sm:mb-14">
           <p className="eyebrow mb-3">Writing</p>
           <h1 className="section-title">Notes from the work</h1>
           <p className="subtitle mt-4 max-w-xl">
