@@ -116,6 +116,19 @@
     /* Lenis drives scrolling; native smooth would fight it */
     scroll-behavior: auto;
     -webkit-text-size-adjust: 100%;
+
+    /* Scrollbar hidden — the progress bar at the top edge is the scroll
+       affordance instead. Scrolling itself is untouched: wheel, trackpad,
+       touch, keyboard (space, PgDn, arrows) and find-on-page all still
+       work, and focus scrolling still reaches offscreen elements. */
+    scrollbar-width: none;
+  }
+
+  html::-webkit-scrollbar,
+  body::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+    display: none;
   }
 
   body {
@@ -195,7 +208,8 @@
   z-index: 66;
   pointer-events: none;
   will-change: transform;
-  animation: intro-lift 0.95s cubic-bezier(0.16, 1, 0.3, 1) 0.12s both;
+  /* holds while the bar fills, then lifts */
+  animation: intro-lift 0.85s cubic-bezier(0.16, 1, 0.3, 1) 0.78s both;
 }
 
 @keyframes intro-lift {
@@ -204,6 +218,34 @@
   }
   to {
     transform: translateY(-102%);
+  }
+}
+
+/* The fill is a fixed 0.7s, not real progress — there is no data to wait
+   on, every route is prerendered. It exists to say "something is
+   happening, it is nearly done" rather than to measure anything. */
+.intro-bar {
+  width: clamp(8rem, 22vw, 14rem);
+  height: 2px;
+  overflow: hidden;
+  border-radius: 2px;
+  background: hsl(0 0% 100% / 0.18);
+}
+
+.intro-bar-fill {
+  display: block;
+  height: 100%;
+  transform-origin: left center;
+  background: hsl(0 0% 100% / 0.9);
+  animation: intro-fill 0.7s cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+
+@keyframes intro-fill {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
   }
 }
 

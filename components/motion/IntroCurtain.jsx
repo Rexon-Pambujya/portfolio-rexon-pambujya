@@ -15,12 +15,20 @@ export default function IntroCurtain() {
     <div className="intro-curtain" aria-hidden>
       <div className="absolute inset-0 bg-gradient-to-b from-curtain-from to-curtain-to" />
 
-      <div className="absolute inset-0 grid place-items-center">
+      <div className="absolute inset-0 flex flex-col items-center justify-center gap-5">
         <span
           className="font-display text-2xl font-semibold tracking-tight
-                     text-white/85 sm:text-3xl"
+                     text-white/90 sm:text-3xl"
         >
           {profile.name}
+        </span>
+
+        <div className="intro-bar">
+          <span className="intro-bar-fill" />
+        </div>
+
+        <span className="font-mono text-[0.625rem] uppercase tracking-[0.28em] text-white/55">
+          {profile.role}
         </span>
       </div>
 

@@ -24,7 +24,10 @@ export default function ScrollProgress() {
     <motion.div
       aria-hidden
       style={{ scaleX: reduced ? scrollYProgress : scaleX }}
-      className="fixed inset-x-0 top-0 z-50 h-0.5 origin-left
+      /* 3px, not 2: with the native scrollbar hidden this is the only
+         indication of how far down the page you are, so it has to be
+         legible rather than decorative. */
+      className="fixed inset-x-0 top-0 z-50 h-[3px] origin-left
                  bg-gradient-to-r from-primary to-lantern"
     />
   );
