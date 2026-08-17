@@ -43,9 +43,11 @@ export const site = {
   locale: "en_IN",
 };
 
+/** Also drives the sitemap and the footer — add a route here, not there. */
 export const navLinks = [
   { href: "/", label: "Home" },
   { href: "/projects", label: "Projects" },
+  { href: "/writing", label: "Writing" },
   { href: "/contact", label: "Contact" },
 ];
 

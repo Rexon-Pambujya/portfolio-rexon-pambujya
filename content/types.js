@@ -45,6 +45,18 @@
  */
 
 /**
+ * @typedef {Object} Post
+ * @property {string}   slug        Stable id, also the React key
+ * @property {string}   title
+ * @property {string}   excerpt     One or two sentences; the card clamps at 3 lines
+ * @property {string}   url         Where the post actually lives
+ * @property {string}   date        ISO yyyy-mm-dd — used for sorting, so keep the format
+ * @property {string}  [readingTime]
+ * @property {string[]} tags        Drive the filter row; keep wording consistent across posts
+ * @property {string}  [source]     e.g. "Medium" — shown as a badge
+ */
+
+/**
  * @typedef {Object} SkillGroup
  * @property {string}   title
  * @property {{ name: string, icon?: string }[]} items
