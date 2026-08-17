@@ -43,10 +43,7 @@ export const experience = [
     role: "Associate Software Engineer",
     location: "Mumbai",
     start: "Feb 2024",
-    // FIXME(rexon): placeholder end date. This said "Present", which can't
-    // be right now NeoSOFT above it ran Jul 2025 - Jan 2026. Set the real
-    // month you left and delete this note.
-    end: "Jun 2025",
+    end: "Mar 2025",
     url: "",
     summary:
       "Modernised the salary processing system for BMC schools, replacing manual file-based processes with an online system.",
@@ -74,17 +71,31 @@ export const experience = [
   },
   {
     company: "Cere Labs",
-    role: "Data Science Intern",
+    role: "Data Science Project Intern",
     location: "Mumbai",
     start: "Jul 2022",
     end: "Jul 2023",
     url: "https://www.cerelabs.com/",
-    summary: "Clustering of Indian addresses to derive business insights.",
+    summary:
+      "Route optimisation for logistics — clustering delivery locations to cut transport cost and speed up delivery.",
     highlights: [
-      "Analysed and processed Indian address data, transformed it into a structured format, assigned precise geo-coordinates and clustered locations.",
-      "Demonstrated that clustering geographic coordinates could meaningfully reduce transportation costs and improve delivery times.",
+      "Implemented a novel clustering approach validated with the Travelling Salesman Problem, grouping geographic coordinates into single-route clusters and cutting transportation costs by 28%.",
+      "Framed the business problem for the logistics operation, then analysed delivery data and reworked the process so routes could be measured against a clear efficiency target.",
+      "Structured raw Indian address data and enriched it with Google Maps API geodata, adding three spatial features that made coordinate-level analysis possible.",
+      "Identified clusters of customer locations serviceable by a single route from the cluster centroid, reducing average distance travelled per route.",
+      "Built an interactive Folium and Streamlit dashboard with key metrics and filters, halving the time taken to draw location-based insights.",
     ],
-    stack: ["Python", "Clustering", "Geospatial Data"],
+    stack: [
+      "Python",
+      "scikit-learn",
+      "SciPy",
+      "NumPy",
+      "Pandas",
+      "Folium",
+      "Streamlit",
+      "Flask",
+      "Geospatial Data",
+    ],
   },
 ];
 
