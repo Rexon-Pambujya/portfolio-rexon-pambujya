@@ -36,7 +36,7 @@ export default function RouteCurtain() {
     setRun((n) => n + 1);
   }, [pathname]);
 
-  if (reduced || run === 0) return null;
+  if (run === 0) return null;
 
   return (
     <motion.div
@@ -44,14 +44,17 @@ export default function RouteCurtain() {
       aria-hidden
       data-route-curtain=""
       className="pointer-events-none fixed inset-0 z-[65]"
-      initial={{ y: 0 }}
-      animate={{ y: "-102%" }}
+      /* Reduced motion cross-fades rather than travelling. Returning null
+         removed the transition entirely, which is a worse answer than a
+         movement-free one. */
+      initial={reduced ? { opacity: 1 } : { y: 0 }}
+      animate={reduced ? { opacity: 0 } : { y: "-102%" }}
       /* Strong ease-OUT, not ease-in-out. The curtain only mounts once
          the new route is already rendered behind it, so any time it
          spends fully covering is latency this adds rather than hides.
          Moving immediately and clearing fast reads as a wipe; a slow
          start reads as the page being stuck. */
-      transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1] }}
+      transition={{ duration: reduced ? 0.4 : 0.85, ease: [0.16, 1, 0.3, 1] }}
     >
       <div className="absolute inset-0 bg-gradient-to-b from-curtain-from to-curtain-to" />
 

@@ -249,9 +249,26 @@
   }
 }
 
-/* Reduced motion gets no cover at all rather than a faster one. */
+/* Reduced motion fades the curtain out instead of sliding it.
+   `display: none` here was wrong: it removed the loading state entirely
+   from exactly the visitors most likely to be on a slow machine. A
+   cross-fade involves no movement, so it isn't what the preference
+   guards against — large travel and parallax are, and those stay off. */
 html[data-motion="reduced"] .intro-curtain {
-  display: none;
+  animation: intro-fade 0.5s ease-out 0.55s both;
+}
+
+html[data-motion="reduced"] .intro-bar-fill {
+  animation-duration: 0.5s;
+}
+
+@keyframes intro-fade {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
 }
 
 @layer components {
