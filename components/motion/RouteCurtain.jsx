@@ -53,14 +53,14 @@ export default function RouteCurtain() {
          start reads as the page being stuck. */
       transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1] }}
     >
-      <div className="absolute inset-0 bg-gradient-to-b from-sea-near via-sea-near to-sea-far" />
+      <div className="absolute inset-0 bg-gradient-to-b from-curtain-from to-curtain-to" />
 
       {/* crest trailing the bottom edge, so it reads as water draining off
           the screen rather than a rectangle sliding away */}
       <svg
         viewBox="0 0 1200 120"
         preserveAspectRatio="none"
-        className="absolute inset-x-0 top-full h-[9vh] w-full text-sea-far"
+        className="absolute inset-x-0 top-full h-[9vh] w-full text-curtain-to"
       >
         <path
           d="M0 0 Q100 92 200 40 T400 42 T600 8 T800 44 T1000 22 T1200 0 V0 H0 Z"

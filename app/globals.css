@@ -53,6 +53,11 @@
     --sea-near: 205 55% 26%;
     --sun: 35 95% 62%;
 
+    /* Transition curtains. These must contrast against --background, not
+       blend into the scene: on parchment that means deep water. */
+    --curtain-from: 205 58% 24%;
+    --curtain-to: 214 62% 12%;
+
     --radius: 0.75rem;
   }
 
@@ -94,6 +99,11 @@
     --sea-far: 196 58% 33%;
     --sea-near: 213 62% 10%;
     --sun: 34 100% 68%;
+
+    /* Inverted against the light theme: the page here is near-black, so a
+       curtain built from --sea-near sat at 1.1:1 and was invisible. */
+    --curtain-from: 194 56% 42%;
+    --curtain-to: 202 60% 20%;
   }
 }
 
