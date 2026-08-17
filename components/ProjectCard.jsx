@@ -30,15 +30,36 @@ export default function ProjectCard({ project, priority = false, index = 0 }) {
       {/* aspect ratio instead of a fixed 300px block, so the image scales
           with the card instead of the text getting squeezed out */}
       <div className="relative aspect-[16/10] w-full overflow-hidden bg-muted">
-        <Image
-          src={project.image}
-          alt={`${project.name} screenshot`}
-          fill
-          sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-          className="object-cover object-top transition-transform duration-500
-                     group-hover:scale-[1.03]"
-          priority={priority}
-        />
+        {project.image ? (
+          <Image
+            src={project.image}
+            alt={`${project.name} screenshot`}
+            fill
+            sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+            className="object-cover object-top transition-transform duration-500
+                       group-hover:scale-[1.03]"
+            priority={priority}
+          />
+        ) : (
+          /* Not every project has a screenshot — a CLI tool or a backend
+             service has nothing to show. A monogram panel beats either
+             crashing next/image on an undefined src or shipping a stock
+             placeholder that looks like a broken asset. */
+          <div
+            aria-hidden
+            className="flex h-full w-full items-center justify-center
+                       bg-gradient-to-br from-secondary via-sea-near to-surface"
+          >
+            <span className="font-display text-4xl font-semibold tracking-tight text-foreground/25">
+              {project.name
+                .split(/\s+/)
+                .map((w) => w[0])
+                .join("")
+                .slice(0, 3)
+                .toUpperCase()}
+            </span>
+          </div>
+        )}
 
         <div
           className="pointer-events-none absolute inset-0 bg-gradient-to-t

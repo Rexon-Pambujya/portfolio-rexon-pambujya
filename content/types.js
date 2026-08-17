@@ -36,7 +36,8 @@
  * @property {string}   name
  * @property {string}   category    Must exist in projects.js `categories`
  * @property {string}   description
- * @property {string}   image
+ * @property {string}  [image]      Omit for projects with nothing to screenshot;
+ *                                  the card falls back to a monogram panel
  * @property {string}  [github]
  * @property {string}  [live]       Deployed URL, if there is one
  * @property {string[]} [tags]

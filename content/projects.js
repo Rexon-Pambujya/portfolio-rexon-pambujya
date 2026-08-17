@@ -13,6 +13,16 @@
  */
 export const projects = [
   {
+    slug: "caredoc-ai",
+    name: "CareDoc AI",
+    category: "ai-ml",
+    description:
+      "A healthcare documentation assistant that turns spoken or written nursing handover notes into validated, structured care records. Faster-Whisper transcription feeds provider-neutral LLM extraction (Groq, OpenAI or Ollama), then Pydantic validation and confidence scoring flag anything a human should review.",
+    github: "https://github.com/Rexon-Pambujya/CareDocAI",
+    tags: ["Gen AI", "LLM", "Whisper", "FastAPI", "Pydantic", "Streamlit"],
+    featured: true,
+  },
+  {
     slug: "faq-chatbot-rag",
     name: "FAQ Chatbot using RAG",
     category: "ai-ml",
@@ -167,7 +177,8 @@ export const projects = [
     image: "/work/1.webp",
     github: "https://github.com/Rexon-Pambujya/OTP-LOGIN-SYSTEM-SHA256",
     tags: ["Java", "Swing", "SHA-256", "SMTP"],
-    featured: true,
+    // unfeatured to keep the homepage at six and make room for CareDoc AI;
+    // it's the least aligned with the AI/ML positioning
   },
 ];
 
