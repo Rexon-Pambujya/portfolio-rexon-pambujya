@@ -88,6 +88,10 @@ export default function VoyageBackground() {
       console.warn("[voyage] WebGL unavailable, using CSS backdrop:", err.message);
       canvas.remove();
       root.dataset.gl = "off";
+      // still announce, or the intro curtain waits on a frame that will
+      // never come and sits until its timeout
+      window.__voyageReady = true;
+      window.dispatchEvent(new Event("voyage:ready"));
       return;
     }
     root.dataset.gl = "on";
@@ -95,6 +99,8 @@ export default function VoyageBackground() {
     const { gl, u } = handle;
     let raf = 0;
     let lost = false;
+    // the intro curtain waits on this before lifting
+    let announced = false;
     const start = performance.now();
     const pointer = { x: 0, y: 0, tx: 0, ty: 0 };
 
@@ -208,6 +214,17 @@ export default function VoyageBackground() {
       gl.uniform1f(u.uDark, dark ? 1 : 0);
 
       gl.drawArrays(gl.TRIANGLES, 0, 3);
+
+      // Announce once the ocean has actually painted a frame. Lifting the
+      // curtain before this shows the flat CSS fallback and an unlit
+      // scene, which is what "it reveals unloaded things" looks like.
+      if (!announced) {
+        announced = true;
+        // Latch as well as dispatch: a listener attached after this point
+        // would otherwise wait forever on an event that already fired.
+        window.__voyageReady = true;
+        window.dispatchEvent(new Event("voyage:ready"));
+      }
 
       /* ---- overlays ---- */
       const ship = shipRef.current;

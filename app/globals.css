@@ -202,28 +202,24 @@
    It does not touch the content's opacity, so the LCP element still
    paints on schedule underneath.
 ------------------------------------------------------------------ */
+/* State-driven, not timed. It covers until [data-ready="true"], which
+   IntroCurtain sets once fonts, window load and the first ocean frame
+   have all landed. A keyframe animation on a delay cleared while the
+   shader was still booting and revealed a half-built page. */
 .intro-curtain {
   position: fixed;
   inset: 0;
   z-index: 66;
   pointer-events: none;
   will-change: transform;
-  /* holds while the bar fills, then lifts */
-  animation: intro-lift 0.85s cubic-bezier(0.16, 1, 0.3, 1) 0.78s both;
+  transform: translateY(0);
 }
 
-@keyframes intro-lift {
-  from {
-    transform: translateY(0);
-  }
-  to {
-    transform: translateY(-102%);
-  }
+.intro-curtain[data-ready="true"] {
+  transform: translateY(-102%);
+  transition: transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* The fill is a fixed 0.7s, not real progress — there is no data to wait
-   on, every route is prerendered. It exists to say "something is
-   happening, it is nearly done" rather than to measure anything. */
 .intro-bar {
   width: clamp(8rem, 22vw, 14rem);
   height: 2px;
@@ -232,20 +228,31 @@
   background: hsl(0 0% 100% / 0.18);
 }
 
+/* Width is set inline from real milestones — fonts, window load, first
+   ocean frame — so this only eases between actual steps rather than
+   animating on a timer that knows nothing. */
 .intro-bar-fill {
   display: block;
   height: 100%;
   transform-origin: left center;
   background: hsl(0 0% 100% / 0.9);
-  animation: intro-fill 0.7s cubic-bezier(0.4, 0, 0.2, 1) both;
+  /* Creeps under CSS, completes under JS.
+     The real wait here is hydration and shader boot, and JavaScript by
+     definition cannot report progress during the window before it runs —
+     measuring from inside the effect showed the bar jumping from its
+     start value straight to done, because everything had already
+     finished by then. CSS starts at first paint and covers that gap;
+     IntroCurtain then overrides to 100% on genuine readiness, so the
+     completion is real even though the creep is an estimate. */
+  animation: intro-creep 3.2s cubic-bezier(0, 0.65, 0.3, 1) both;
 }
 
-@keyframes intro-fill {
+@keyframes intro-creep {
   from {
-    transform: scaleX(0);
+    transform: scaleX(0.06);
   }
   to {
-    transform: scaleX(1);
+    transform: scaleX(0.88);
   }
 }
 
@@ -254,21 +261,10 @@
    from exactly the visitors most likely to be on a slow machine. A
    cross-fade involves no movement, so it isn't what the preference
    guards against — large travel and parallax are, and those stay off. */
-html[data-motion="reduced"] .intro-curtain {
-  animation: intro-fade 0.5s ease-out 0.55s both;
-}
-
-html[data-motion="reduced"] .intro-bar-fill {
-  animation-duration: 0.5s;
-}
-
-@keyframes intro-fade {
-  from {
-    opacity: 1;
-  }
-  to {
-    opacity: 0;
-  }
+html[data-motion="reduced"] .intro-curtain[data-ready="true"] {
+  transform: none;
+  opacity: 0;
+  transition: opacity 0.45s ease-out;
 }
 
 @layer components {
