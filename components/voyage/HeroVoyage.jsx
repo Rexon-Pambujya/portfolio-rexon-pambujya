@@ -8,6 +8,7 @@ import {
 } from "framer-motion";
 
 import { useMotionPref } from "../motion/MotionPreference";
+import useIntroDone from "../motion/useIntroDone";
 import { ArrowDown } from "lucide-react";
 
 import Socials from "@/components/Socials";
@@ -23,7 +24,7 @@ import { profile, yearsOfExperience } from "@/content/profile";
  * mismatch waiting to happen, because the server has no way to know the
  * visitor's preference and renders the wrong branch every time.
  */
-function SplitHeadline({ text, reduced }) {
+function SplitHeadline({ text, reduced, started }) {
   return (
     <h1 className="h1 text-balance">
       <span className="sr-only">{text}</span>
@@ -33,7 +34,7 @@ function SplitHeadline({ text, reduced }) {
             <motion.span
               className="inline-block"
               initial={{ y: "110%" }}
-              animate={{ y: 0 }}
+              animate={started ? { y: 0 } : { y: "110%" }}
               transition={{
                 duration: reduced ? 0 : 0.85,
                 delay: reduced ? 0 : 0.15 + i * 0.09,
@@ -51,6 +52,9 @@ function SplitHeadline({ text, reduced }) {
 
 export default function HeroVoyage() {
   const reduced = useMotionPref();
+  // Entrance animations hold until the curtain is out of the way, so the
+  // reveal is seen rather than played behind the cover.
+  const started = useIntroDone();
   const ref = useRef(null);
 
   const { scrollYProgress } = useScroll({
@@ -126,18 +130,18 @@ export default function HeroVoyage() {
           <motion.p
             className="eyebrow mb-5"
             initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
+            animate={started ? { opacity: 1 } : { opacity: 0 }}
             transition={{ duration: reduced ? 0 : 0.6 }}
           >
             {profile.kicker}
           </motion.p>
 
-          <SplitHeadline text={profile.headline} reduced={reduced} />
+          <SplitHeadline text={profile.headline} reduced={reduced} started={started} />
 
           <motion.p
             className="subtitle mt-6 max-w-xl text-balance"
             initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
+            animate={started ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}
             transition={{ duration: reduced ? 0 : 0.7, delay: reduced ? 0 : 0.5 }}
           >
             {profile.tagline}
@@ -149,7 +153,7 @@ export default function HeroVoyage() {
               duplicating it just competed with itself. */}
           <motion.div
             initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
+            animate={started ? { opacity: 1 } : { opacity: 0 }}
             transition={{ duration: reduced ? 0 : 0.7, delay: reduced ? 0 : 0.65 }}
             className="mt-10 flex flex-wrap items-center gap-x-8 gap-y-6"
           >
@@ -180,7 +184,7 @@ export default function HeroVoyage() {
         <motion.a
           href="#about"
           initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
+          animate={started ? { opacity: 1 } : { opacity: 0 }}
           transition={{ duration: reduced ? 0 : 0.8, delay: reduced ? 0 : 1.1 }}
           className="absolute inset-x-0 bottom-6 mx-auto flex w-fit flex-col
                      items-center gap-2 font-mono text-[0.625rem] uppercase

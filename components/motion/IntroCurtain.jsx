@@ -70,7 +70,13 @@ export default function IntroCurtain() {
       }
 
       const elapsed = performance.now() - started;
-      setTimeout(() => setReady(true), Math.max(340, MIN_SHOW - elapsed));
+      setTimeout(() => {
+        setReady(true);
+        // Hero entrance animations wait on this. Latched as well as
+        // dispatched, since a consumer may subscribe after it fires.
+        window.__introDone = true;
+        window.dispatchEvent(new Event("intro:done"));
+      }, Math.max(340, MIN_SHOW - elapsed));
     };
 
     Promise.race([
