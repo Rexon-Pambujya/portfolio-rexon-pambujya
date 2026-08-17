@@ -9,6 +9,7 @@ import SmoothScroll from "@/components/motion/SmoothScroll";
 import ScrollProgress from "@/components/motion/ScrollProgress";
 import NavProgress from "@/components/motion/NavProgress";
 import RouteCurtain from "@/components/motion/RouteCurtain";
+import IntroCurtain from "@/components/motion/IntroCurtain";
 import MotionProvider from "@/components/motion/MotionProvider";
 import { MotionPreferenceProvider } from "@/components/motion/MotionPreference";
 import VoyageBackground from "@/components/voyage/VoyageBackground";
@@ -98,6 +99,7 @@ export default function RootLayout({ children }) {
         <JsonLd />
       </head>
       <body className="font-sans">
+        <IntroCurtain />
         <ThemeProvider
           attribute="class"
           defaultTheme="dark"

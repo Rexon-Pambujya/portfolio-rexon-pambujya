@@ -167,6 +167,41 @@
   }
 }
 
+/* ------------------------------------------------------------------
+   Intro curtain — first paint of every document load.
+
+   Deliberately pure CSS on server-rendered markup, not a React state
+   machine: it is present in the very first frame the browser paints
+   (no flash of content, then cover), it needs no hydration, and if JS
+   never arrives it still clears itself. A JS-driven preloader that
+   fails to mount leaves the page covered forever.
+
+   It does not touch the content's opacity, so the LCP element still
+   paints on schedule underneath.
+------------------------------------------------------------------ */
+.intro-curtain {
+  position: fixed;
+  inset: 0;
+  z-index: 66;
+  pointer-events: none;
+  will-change: transform;
+  animation: intro-lift 0.95s cubic-bezier(0.16, 1, 0.3, 1) 0.12s both;
+}
+
+@keyframes intro-lift {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-102%);
+  }
+}
+
+/* Reduced motion gets no cover at all rather than a faster one. */
+html[data-motion="reduced"] .intro-curtain {
+  display: none;
+}
+
 @layer components {
   .h1 {
     @apply font-display font-semibold tracking-[-0.02em]
