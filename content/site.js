@@ -13,16 +13,28 @@ export const site = {
 
   title: `${profile.name} — ${profile.role}`,
   shortTitle: profile.name,
+  // Kept under ~160 characters so search engines show it whole.
   description:
-    "Software Engineer in Mumbai building AI systems and web applications. Python, machine learning, React and Next.js.",
+    "AI/ML Engineer in Mumbai with 3+ years building LLM applications, RAG systems, AI agents and production ML. Python, LangChain, LangGraph, FastAPI.",
 
+  // Ordered by the roles being targeted, then the tools recruiters filter on.
   keywords: [
     "Rexon Pambujya",
-    "Software Engineer",
-    "Machine Learning",
+    "AI/ML Engineer",
+    "AI Engineer",
+    "Machine Learning Engineer",
+    "Data Scientist",
+    "Generative AI",
+    "AI Agents",
+    "RAG",
+    "LLM",
+    "LangChain",
+    "LangGraph",
+    "Fine-tuning",
     "Python",
-    "React",
-    "Next.js",
+    "FastAPI",
+    "PyTorch",
+    "Data Science",
     "Mumbai",
   ],
 
