@@ -23,6 +23,16 @@ export const projects = [
     featured: true,
   },
   {
+    slug: "expertise-fraud",
+    name: "Expertise Fraud Detection",
+    category: "ai-ml",
+    description:
+      "Detects inflated expertise claims in candidate profiles by scoring timeline inconsistencies, buzzword patterns and web signals into a feature vector. A PPO-trained policy in a Gymnasium environment then decides PASS, FLAG or ASK_MORE, and every verdict ships with the evidence behind it.",
+    github: "https://github.com/Rexon-Pambujya/Expertise-Fraud",
+    tags: ["Reinforcement Learning", "PPO", "Gymnasium", "Explainable AI", "Python"],
+    featured: true,
+  },
+  {
     slug: "faq-chatbot-rag",
     name: "FAQ Chatbot using RAG",
     category: "ai-ml",
@@ -34,6 +44,17 @@ export const projects = [
     featured: true,
   },
   {
+    slug: "stroke-predictor",
+    name: "Stroke Risk Predictor",
+    category: "ai-ml",
+    description:
+      "Predicts stroke risk from patient health records. Compares Logistic Regression, Random Forest and XGBoost with class-imbalance handling, then tunes the decision threshold for recall — the metric that actually matters when a false negative is a missed stroke. Deployed as a Streamlit app with per-patient insights.",
+    image: "/work/16.webp",
+    github: "https://github.com/Rexon-Pambujya/StrokePredictor",
+    tags: ["XGBoost", "scikit-learn", "Class Imbalance", "Streamlit", "Python"],
+    featured: true,
+  },
+  {
     slug: "diabetes-prediction",
     name: "Diabetes Prediction & Classification",
     category: "ai-ml",
@@ -42,7 +63,6 @@ export const projects = [
     image: "/work/2.webp",
     github: "https://github.com/Rexon-Pambujya/Diabetes_Prediction_Streamlit",
     tags: ["Machine Learning", "Data Science", "scikit-learn", "Streamlit"],
-    featured: true,
   },
   {
     slug: "osms",
@@ -65,7 +85,6 @@ export const projects = [
     image: "/work/13.webp",
     github: "https://github.com/Rexon-Pambujya/DynamicEventsWebApp",
     tags: ["React", "MongoDB", "Express"],
-    featured: true,
   },
   {
     slug: "food-ordering-fullstack",
