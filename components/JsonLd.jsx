@@ -12,7 +12,9 @@ import { skillGroups } from "@/content/skills";
  * Everything is derived from /content — nothing to keep in sync by hand.
  */
 export default function JsonLd() {
-  const current = experience.find((job) => job.current) ?? experience[0];
+  // Only a genuinely current role. Falling back to the most recent job
+  // would assert worksFor for an employer that's already been left.
+  const current = experience.find((job) => job.current);
 
   const data = {
     "@context": "https://schema.org",

@@ -8,12 +8,45 @@
  */
 export const experience = [
   {
+    company: "NeoSOFT",
+    role: "Data Scientist",
+    location: "Mumbai",
+    start: "Jul 2025",
+    end: "Jan 2026",
+    url: "https://www.neosofttech.com/",
+    summary:
+      "Meeting-to-BRD generation platform, insurance QA fine-tuning, and chemical blend production forecasting.",
+    highlights: [
+      "Designed and deployed an LLM-powered pipeline turning recorded meetings into client-ready BRD documents, cutting manual documentation effort by 90% across 8+ stakeholders.",
+      "Built the transcription layer end to end — extracting audio from MP4/MP3, chunking long recordings and calling Azure OpenAI Speech in parallel threads so multi-hour meetings transcribe reliably.",
+      "Added a review chatbot that lets stakeholders question and refine requirements, feeding the conversation back into the generator so the BRD updates iteratively.",
+      "Shipped it as Flask REST APIs behind JWT auth, with per-session artefacts across Google Cloud Storage, Firestore and Secret Manager, and automated export to Word.",
+      "Fine-tuned Gemma 2 2B on 10k+ SBI General Insurance records using LoRA adapters and 4-bit quantisation, building the pipeline that turned 1,000+ policy PDFs into provenance-tracked QA pairs.",
+      "Evaluated the fine-tune on BERT-F1, ROUGE, semantic similarity and faithfulness, serving it from FastAPI and Docker endpoints with adapter hot-swap.",
+      "Built a time-series forecasting pipeline for SABIC's ethanol blend production datasets in RapidMiner, improving forecast reliability and reducing analysis effort.",
+    ],
+    stack: [
+      "Python",
+      "Azure OpenAI",
+      "LoRA",
+      "PyTorch",
+      "Flask",
+      "FastAPI",
+      "Google Cloud",
+      "RapidMiner",
+      "Docker",
+      "Jenkins",
+    ],
+  },
+  {
     company: "Blitzar Tech Pvt Ltd.",
     role: "Associate Software Engineer",
     location: "Mumbai",
     start: "Feb 2024",
-    end: "Present",
-    current: true,
+    // FIXME(rexon): placeholder end date. This said "Present", which can't
+    // be right now NeoSOFT above it ran Jul 2025 - Jan 2026. Set the real
+    // month you left and delete this note.
+    end: "Jun 2025",
     url: "",
     summary:
       "Modernised the salary processing system for BMC schools, replacing manual file-based processes with an online system.",
