@@ -19,16 +19,18 @@ import { useMotionPref } from "./MotionPreference";
 /**
  * Travel is deliberately short. At 28px the movement was long enough to
  * read as the text shaking into place rather than easing in, especially
- * for anything already near the viewport when it triggers. Use `fade`
- * for content that's on screen the moment a page opens — a heading that
- * slides after it's already visible always looks wrong.
+ * for anything already near the viewport when it triggers.
+ *
+ * For anything on screen the moment a page opens, don't reach for `fade`
+ * — pass `immediate`. `fade` still server-renders at opacity 0, so the
+ * text is invisible until the observer fires, which reads as a blink.
  */
 const FROM = {
-  bottom: { y: 16, x: 0 },
-  top: { y: -16, x: 0 },
-  left: { x: -22, y: 0 },
-  right: { x: 22, y: 0 },
-  scale: { x: 0, y: 0, scale: 0.96 },
+  bottom: { y: 10, x: 0 },
+  top: { y: -10, x: 0 },
+  left: { x: -14, y: 0 },
+  right: { x: 14, y: 0 },
+  scale: { x: 0, y: 0, scale: 0.98 },
   fade: { x: 0, y: 0 },
 };
 
@@ -37,14 +39,34 @@ export default function Reveal({
   as = "div",
   from = "bottom",
   delay = 0,
-  duration = 0.6,
+  duration = 0.45,
   className = "",
   once = true,
-  margin = "-70px",
+  /* A full screen of lead time on the bottom edge, so the entrance is
+     over well before the element is in front of you.
+
+     The old -70px did the exact opposite — nothing moved until it was
+     already 70px *inside* the viewport, so you sat and watched every
+     block fade up. Measured at 160px it was still being caught
+     mid-flight, because arriving at a section fast covers that in a
+     frame or two. Only the bottom edge is expanded: with once:true,
+     anything re-entering from the top has already played. */
+  margin = "0px 0px 800px 0px",
+  immediate = false,
 }) {
   const reduced = useMotionPref();
   const MotionTag = motion[as] ?? motion.div;
   const offset = FROM[from] ?? FROM.bottom;
+
+  /* First-screen content renders as plain markup with no entrance at all.
+     A motion element would ship opacity:0 in the SSR HTML and stay
+     invisible until hydration + the observer callback — and under
+     StrictMode's double mount the fade restarts, so the text appears,
+     hides, and appears again. Nothing to restart if nothing animates. */
+  if (immediate) {
+    const Tag = as;
+    return <Tag className={className}>{children}</Tag>;
+  }
 
   return (
     <MotionTag

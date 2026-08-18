@@ -21,7 +21,7 @@ const PostCard = forwardRef(function PostCard({ post, index = 0 }, ref) {
       initial={{ opacity: 0, y: 18 }}
       whileInView={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, scale: 0.98 }}
-      viewport={{ once: true, margin: "-50px" }}
+      viewport={{ once: true, margin: "0px 0px 800px 0px" }}
       transition={{
         duration: reduced ? 0 : 0.45,
         delay: reduced ? 0 : Math.min(index * 0.06, 0.3),

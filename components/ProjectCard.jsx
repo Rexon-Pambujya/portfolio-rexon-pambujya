@@ -18,7 +18,7 @@ export default function ProjectCard({ project, priority = false, index = 0 }) {
     <motion.article
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-60px" }}
+      viewport={{ once: true, margin: "0px 0px 800px 0px" }}
       transition={{
         duration: reduced ? 0 : 0.45,
         delay: reduced ? 0 : Math.min(index * 0.05, 0.25),

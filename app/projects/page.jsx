@@ -33,7 +33,7 @@ export default function ProjectsPage() {
   return (
     <section className="deck my-5 max-w-6xl py-20 sm:my-8 sm:py-28">
       <div className="container">
-        <Reveal from="fade" className="mb-10 sm:mb-14">
+        <Reveal immediate className="mb-10 sm:mb-14">
           <p className="eyebrow mb-3">Portfolio</p>
           <h1 className="section-title">Projects</h1>
           <p className="subtitle mt-4 max-w-xl">
@@ -64,7 +64,12 @@ export default function ProjectsPage() {
           layout={!reduced}
           className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 lg:gap-6"
         >
-          <AnimatePresence mode="popLayout">
+          {/* initial={false} keeps the cards out of the entrance animation
+              on first paint. They used to scale 0.97 -> 1 on every page
+              open, and scaling a card re-rasterises its text mid-flight,
+              which reads as the type shivering. Filter changes still
+              animate, which is the only place the motion earns itself. */}
+          <AnimatePresence mode="popLayout" initial={false}>
             {filtered.map((project, i) => (
               <motion.li
                 key={project.slug}

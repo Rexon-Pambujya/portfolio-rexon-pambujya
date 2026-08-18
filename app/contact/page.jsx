@@ -22,7 +22,7 @@ export default function ContactPage() {
             single narrow column from 0 to 1279px */}
         <div className="grid gap-12 lg:grid-cols-[0.85fr_1fr] lg:gap-16">
           <div>
-            <Reveal from="fade">
+            <Reveal immediate>
               <p className="eyebrow mb-4">Say hello</p>
               <h1 className="h1 text-balance">Let's work together</h1>
               <p className="subtitle mt-6 max-w-md">
@@ -32,7 +32,7 @@ export default function ContactPage() {
               </p>
             </Reveal>
 
-            <Reveal from="fade" delay={0.1}>
+            <Reveal immediate>
               <ul className="mt-10 space-y-5">
                 <li>
                   <Link
@@ -110,7 +110,9 @@ export default function ContactPage() {
             </Reveal>
           </div>
 
-          <Reveal from="fade" delay={0.15}>
+          {/* The whole contact page is one screen — every block here is
+              visible on open, so none of it animates in. */}
+          <Reveal immediate>
             <ContactForm />
           </Reveal>
         </div>
