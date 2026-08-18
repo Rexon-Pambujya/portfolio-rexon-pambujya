@@ -1,9 +1,9 @@
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 
-import { Button } from "./ui/button";
-import Reveal from "./motion/Reveal";
-import MagneticButton from "./motion/MagneticButton";
+import { Button } from "@/components/ui/button";
+import Reveal from "@/components/motion/Reveal";
+import MagneticButton from "@/components/motion/MagneticButton";
 import { profile } from "@/content/profile";
 
 // Narrower than the other decks so the ship coming alongside stays visible.

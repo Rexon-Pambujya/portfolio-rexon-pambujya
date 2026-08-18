@@ -13,25 +13,41 @@ export const site = {
 
   title: `${profile.name} — ${profile.role}`,
   shortTitle: profile.name,
+  // Kept under ~160 characters so search engines show it whole.
+  // Names both target roles — the <title> stays the single clean role, so
+  // this is the only place "Data Scientist" can surface in search results.
   description:
-    "Software Engineer in Mumbai building AI systems and web applications. Python, machine learning, React and Next.js.",
+    "AI/ML Engineer and Data Scientist in Mumbai. 3+ years building ML models, LLM applications, RAG systems and AI agents. Python, LangChain, FastAPI.",
 
+  // Ordered by the roles being targeted, then the tools recruiters filter on.
   keywords: [
     "Rexon Pambujya",
-    "Software Engineer",
-    "Machine Learning",
+    "AI/ML Engineer",
+    "AI Engineer",
+    "Machine Learning Engineer",
+    "Data Scientist",
+    "Generative AI",
+    "AI Agents",
+    "RAG",
+    "LLM",
+    "LangChain",
+    "LangGraph",
+    "Fine-tuning",
     "Python",
-    "React",
-    "Next.js",
+    "FastAPI",
+    "PyTorch",
+    "Data Science",
     "Mumbai",
   ],
 
   locale: "en_IN",
 };
 
+/** Also drives the sitemap and the footer — add a route here, not there. */
 export const navLinks = [
   { href: "/", label: "Home" },
   { href: "/projects", label: "Projects" },
+  { href: "/writing", label: "Writings" },
   { href: "/contact", label: "Contact" },
 ];
 

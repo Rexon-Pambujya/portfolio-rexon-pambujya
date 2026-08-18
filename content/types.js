@@ -36,11 +36,24 @@
  * @property {string}   name
  * @property {string}   category    Must exist in projects.js `categories`
  * @property {string}   description
- * @property {string}   image
+ * @property {string}  [image]      Omit for projects with nothing to screenshot;
+ *                                  the card falls back to a monogram panel
  * @property {string}  [github]
  * @property {string}  [live]       Deployed URL, if there is one
  * @property {string[]} [tags]
  * @property {boolean} [featured]   Surfaces it on the homepage
+ */
+
+/**
+ * @typedef {Object} Post
+ * @property {string}   slug        Stable id, also the React key
+ * @property {string}   title
+ * @property {string}   excerpt     One or two sentences; the card clamps at 3 lines
+ * @property {string}   url         Where the post actually lives
+ * @property {string}   date        ISO yyyy-mm-dd — used for sorting, so keep the format
+ * @property {string}  [readingTime]
+ * @property {string[]} tags        Drive the filter row; keep wording consistent across posts
+ * @property {string}  [source]     e.g. "Medium" — shown as a badge
  */
 
 /**
@@ -53,7 +66,7 @@
  * @typedef {Object} Social
  * @property {string} label
  * @property {string} href
- * @property {string} icon   Key resolved in components/Socials.jsx
+ * @property {string} icon   Key resolved in components/common/Socials.jsx
  */
 
 export {};

@@ -1,7 +1,7 @@
 import Image from "next/image";
 
-import Reveal from "./motion/Reveal";
-import RichText from "./RichText";
+import Reveal from "@/components/motion/Reveal";
+import RichText from "@/components/common/RichText";
 import Experience from "./Experience";
 import Education from "./Education";
 import Skills from "./Skills";

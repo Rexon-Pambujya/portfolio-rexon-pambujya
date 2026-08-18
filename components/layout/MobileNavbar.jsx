@@ -7,7 +7,7 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import Navbar from "./Navbar";
 import Logo from "./Logo";
-import Socials from "./Socials";
+import Socials from "@/components/common/Socials";
 import { profile } from "@/content/profile";
 
 export default function MobileNavbar() {

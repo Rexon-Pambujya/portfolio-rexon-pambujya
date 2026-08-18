@@ -1,5 +1,5 @@
 /**
- * `icon` resolves against the map in components/Socials.jsx.
+ * `icon` resolves against the map in components/common/Socials.jsx.
  *
  * @type {import('./types').Social[]}
  */

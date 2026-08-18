@@ -2,9 +2,9 @@
 
 import { motion } from "framer-motion";
 
-import { useMotionPref } from "./motion/MotionPreference";
+import { useMotionPref } from "@/components/motion/MotionPreference";
 import { skillGroups, softSkills } from "@/content/skills";
-import { skillIcons } from "./skills/iconMap";
+import { skillIcons } from "./skillIcons";
 
 /**
  * Compact inline chips rather than a grid of tiles.
@@ -22,7 +22,10 @@ function SkillChip({ name, icon, index, reduced }) {
     <motion.li
       initial={{ opacity: 0, y: 8 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-30px" }}
+      /* Same lead time as Reveal. At -30px the chips triggered once they
+         were already on screen, and with a stagger running behind them
+         you watched the tail of the list fade in one by one. */
+      viewport={{ once: true, margin: "0px 0px 800px 0px" }}
       transition={{
         duration: reduced ? 0 : 0.3,
         delay: reduced ? 0 : Math.min(index * 0.02, 0.24),

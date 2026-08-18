@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { useState } from "react";
 
-import useHeroVideo from "@/hooks/useHeroVideo";
+import useHeroVideo from "./useHeroVideo";
 import { hero, hasHeroVideo } from "@/content/hero";
 
 /**

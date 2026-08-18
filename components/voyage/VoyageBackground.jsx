@@ -5,7 +5,7 @@ import { useEffect, useRef } from "react";
 import { createOceanProgram, seaPointAt, swellAt } from "./oceanShader";
 import { Ship, DOCKS } from "./shapes";
 import Birds from "./Birds";
-import { useMotionPref } from "../motion/MotionPreference";
+import { useMotionPref } from "@/components/motion/MotionPreference";
 import { voyageStops } from "@/content/voyage";
 
 /* ── helpers ─────────────────────────────────────────────────────── */
@@ -28,6 +28,12 @@ const lerp3 = (a, b, t, out) => {
   return out;
 };
 const smooth = (t) => t * t * (3 - 2 * t);
+
+/* The static anchor baked into the ship element's inline left/bottom.
+   Every per-frame movement is expressed as a transform delta from here,
+   so the render loop never writes a layout-triggering property. */
+const ANCHOR_X = 0.46;
+const ANCHOR_Y = 0.43;
 const clamp01 = (v) => (v < 0 ? 0 : v > 1 ? 1 : v);
 
 /** Pre-parse every stop's colours once, for both themes. */
@@ -88,6 +94,10 @@ export default function VoyageBackground() {
       console.warn("[voyage] WebGL unavailable, using CSS backdrop:", err.message);
       canvas.remove();
       root.dataset.gl = "off";
+      // still announce, or the intro curtain waits on a frame that will
+      // never come and sits until its timeout
+      window.__voyageReady = true;
+      window.dispatchEvent(new Event("voyage:ready"));
       return;
     }
     root.dataset.gl = "on";
@@ -95,17 +105,26 @@ export default function VoyageBackground() {
     const { gl, u } = handle;
     let raf = 0;
     let lost = false;
+    // the intro curtain waits on this before lifting
+    let announced = false;
     const start = performance.now();
     const pointer = { x: 0, y: 0, tx: 0, ty: 0 };
 
     // eased scroll — the raw value is already smooth under Lenis, but this
     // keeps the scene from snapping on wheel-jumps and anchor jumps
     let progress = 0;
+    let last = start;
 
     // low-passed hull motion, so the ship settles onto the swell instead
     // of tracking every sample exactly
     let shipRise = 0;
     let shipPitch = 0;
+    // The ship's own station, easing toward the scroll-derived one. Its x
+    // used to be a pure function of scroll, so it slid exactly as fast as
+    // the wheel turned and stopped dead the instant you did — towed, not
+    // sailing. null until the first frame so it starts on station rather
+    // than gliding in from the anchor.
+    let shipX = null;
 
     const cDeep = [0, 0, 0];
     const cShallow = [0, 0, 0];
@@ -141,13 +160,21 @@ export default function VoyageBackground() {
       if (lost) return;
 
       const t = (now - start) / 1000;
+      // Frame-time based easing. The old form moved a fixed fraction per
+      // *frame*, so the scene eased at one speed on 60Hz and twice that on
+      // 120Hz, and fell behind badly whenever the frame rate dipped —
+      // exactly when it most looked like the ship was under tow. Clamped
+      // so a stalled tab doesn't teleport the scene on the next frame.
+      const dt = Math.min(0.05, (now - last) / 1000);
+      last = now;
+      const ease = (tau) => 1 - Math.exp(-dt / tau);
       const reduced = reducedRef.current;
       const dark = document.documentElement.classList.contains("dark");
       const narrow = wrap.clientWidth < 640;
 
       // ease toward the true scroll position
       const target = readScroll();
-      progress += (target - progress) * (reduced ? 1 : 0.12);
+      progress += (target - progress) * (reduced ? 1 : ease(0.13));
 
       // find the two stops we're between
       let i = 0;
@@ -166,7 +193,11 @@ export default function VoyageBackground() {
       lerp3(ca.skyLow, cb.skyLow, k, cSkyLow);
       lerp3(ca.sun, cb.sun, k, cSun);
 
-      const horizon = lerp(a.horizon, b.horizon, k);
+      // Narrow layouts get a much higher horizon. The headline runs
+      // full-bleed there, so the ship can't be moved clear of it
+      // sideways — lifting the waterline puts the ship in the sky band
+      // above the copy instead, and the text sits over open water.
+      const horizon = lerp(a.horizon, b.horizon, k) + (narrow ? 0.14 : 0);
       const wind = lerp(a.wind, b.wind, k);
       const advance = lerp(a.advance, b.advance, k);
       let sunX = lerp(a.sun[0], b.sun[0], k);
@@ -205,11 +236,44 @@ export default function VoyageBackground() {
 
       gl.drawArrays(gl.TRIANGLES, 0, 3);
 
+      // Announce once the ocean has actually painted a frame. Lifting the
+      // curtain before this shows the flat CSS fallback and an unlit
+      // scene, which is what "it reveals unloaded things" looks like.
+      if (!announced) {
+        announced = true;
+        // Latch as well as dispatch: a listener attached after this point
+        // would otherwise wait forever on an event that already fired.
+        window.__voyageReady = true;
+        window.dispatchEvent(new Event("voyage:ready"));
+      }
+
       /* ---- overlays ---- */
       const ship = shipRef.current;
       if (ship) {
-        const x = lerp(a.ship.x, b.ship.x, k);
-        const s = lerp(a.ship.scale, b.ship.scale, k);
+        let x = lerp(a.ship.x, b.ship.x, k);
+        let s = lerp(a.ship.scale, b.ship.scale, k);
+
+        // Narrow layouts run the headline full-bleed, so the ship has to
+        // move out to the edge and shrink or it lands on top of the name.
+        // 0.86 keeps the hull fully on screen: the container floors at
+        // 118px wide, so at 0.75 scale its half-width is ~11% of a 390px
+        // viewport and anything further right clips the bow.
+        if (narrow) {
+          x = Math.min(0.86, x + 0.18);
+          s *= 0.75;
+        }
+
+        // Ease onto that station rather than snapping to it, then add a
+        // slow surge so the hull is never completely still. The lag is
+        // what separates "under way" from "under tow": stop scrolling and
+        // the ship carries its own way through the last of the distance.
+        // Longer tau than the scene itself, so it visibly trails the
+        // water rather than moving in lockstep with the wheel.
+        if (shipX === null) shipX = x;
+        shipX += (x - shipX) * (reduced ? 1 : ease(0.42));
+        x = reduced
+          ? shipX
+          : shipX + Math.sin(t * 0.5) * 0.004 + Math.sin(t * 0.23) * 0.006;
 
         // Sample the surface under the hull so the ship rides the same
         // swell the shader draws, rather than bobbing on its own clock.
@@ -229,15 +293,24 @@ export default function VoyageBackground() {
         const targetRise = h * 7 * s;
         const targetPitch = Math.max(-6, Math.min(6, -slope * 4.5));
 
-        shipRise += (targetRise - shipRise) * 0.07;
-        shipPitch += (targetPitch - shipPitch) * 0.07;
+        shipRise += (targetRise - shipRise) * ease(0.23);
+        shipPitch += (targetPitch - shipPitch) * ease(0.23);
 
         // Position on the outer element, pitch on the hull only — a wake
         // that rolls with the ship looks painted on.
-        ship.style.left = `${x * 100}%`;
-        ship.style.bottom = `${horizon * 100 - 2.5}%`;
+        //
+        // Transform only. left and bottom were being rewritten every
+        // frame and both trigger layout, so the hull was relaid out 60
+        // times a second while the rest of the scene merely composited —
+        // which is precisely what made it read as being towed a step
+        // behind the water. The element's static left/bottom stay as the
+        // anchor and this expresses the offset from it.
+        const dx = (x - ANCHOR_X) * wrap.clientWidth;
+        const dy =
+          -((horizon - 0.025 - ANCHOR_Y) * wrap.clientHeight) + shipRise;
         ship.style.transform =
-          `translateX(-50%) translateY(${shipRise.toFixed(2)}px) scale(${s.toFixed(3)})`;
+          `translateX(-50%) translate3d(${dx.toFixed(1)}px, ${dy.toFixed(1)}px, 0) ` +
+          `scale(${s.toFixed(3)})`;
 
         const hull = hullRef.current;
         if (hull) hull.style.transform = `rotate(${shipPitch.toFixed(2)}deg)`;
@@ -354,7 +427,14 @@ export default function VoyageBackground() {
       <div
         ref={shipRef}
         className="absolute h-[17vmin] min-h-[84px] w-[24vmin] min-w-[118px]"
-        style={{ left: "46%", bottom: "43%", transform: "translateX(-50%)" }}
+        /* left/bottom match ANCHOR_X/ANCHOR_Y and are never rewritten —
+           the loop moves the ship with transform alone. */
+        style={{
+          left: "46%",
+          bottom: "43%",
+          transform: "translateX(-50%)",
+          willChange: "transform",
+        }}
       >
         {/* No bob keyframe here — the hull's rise and pitch are driven
             from the shader's own wave height in the render loop. */}

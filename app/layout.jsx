@@ -2,15 +2,18 @@ import { Fraunces, Inter, JetBrains_Mono } from "next/font/google";
 
 import "./globals.css";
 
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
-import ThemeProvider from "@/components/ThemeProvider";
+import Header from "@/components/layout/Header";
+import Footer from "@/components/layout/Footer";
+import ThemeProvider from "@/components/layout/ThemeProvider";
 import SmoothScroll from "@/components/motion/SmoothScroll";
 import ScrollProgress from "@/components/motion/ScrollProgress";
+import NavProgress from "@/components/motion/NavProgress";
+import IntroCurtain from "@/components/motion/IntroCurtain";
 import MotionProvider from "@/components/motion/MotionProvider";
 import { MotionPreferenceProvider } from "@/components/motion/MotionPreference";
 import VoyageBackground from "@/components/voyage/VoyageBackground";
-import JsonLd from "@/components/JsonLd";
+import JsonLd from "@/components/common/JsonLd";
+import { Analytics } from "@vercel/analytics/next";
 
 /**
  * Resolves the motion preference before first paint, the same way
@@ -95,6 +98,7 @@ export default function RootLayout({ children }) {
         <JsonLd />
       </head>
       <body className="font-sans">
+        <IntroCurtain />
         <ThemeProvider
           attribute="class"
           defaultTheme="dark"
@@ -114,6 +118,7 @@ export default function RootLayout({ children }) {
           <MotionProvider>
             <SmoothScroll />
             <ScrollProgress />
+            <NavProgress />
 
             {/* one continuous scene behind every page */}
             <VoyageBackground />
@@ -128,6 +133,11 @@ export default function RootLayout({ children }) {
           </MotionProvider>
         </MotionPreferenceProvider>
         </ThemeProvider>
+
+        {/* Outside the providers: it renders nothing, and it should keep
+            reporting even if something above it throws. Only sends data
+            from a Vercel deployment — in dev it just logs to the console. */}
+        <Analytics />
       </body>
     </html>
   );

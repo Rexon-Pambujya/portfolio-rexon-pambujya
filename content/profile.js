@@ -9,7 +9,13 @@
 export const profile = {
   name: "Rexon Pambujya",
   firstName: "Rexon",
-  role: "Software Engineer",
+  /**
+   * Load-bearing: this string is the page title, the OG card, the footer
+   * and the JSON-LD jobTitle. It's the phrase recruiters and search
+   * engines match on, so it names the target role rather than the last
+   * job title.
+   */
+  role: "AI/ML Engineer",
   location: "Mumbai, India",
 
   /** Drives the "years of experience" stat so it never goes stale. */
@@ -31,19 +37,22 @@ export const profile = {
   avatar: "/hero/dev.webp",
 
   /** Hero copy. Keep the headline short — it sits over the ocean. */
-  kicker: "Software Engineer · Mumbai",
+  kicker: "AI/ML Engineer · Mumbai",
   headline: "Rexon Pambujya",
+  // "ML models" first on purpose: without it the hero reads as GenAI-only,
+  // which undersells the ML Engineer and Data Scientist side.
   tagline:
-    "I build AI systems and web applications that hold up in production.",
+    "I build ML models, LLM applications, RAG systems and agentic workflows that hold up in production.",
 
   bio: [
-    "A passionate **Software Engineer** based in Mumbai with strong skills in **Python**, **Data Science**, **Machine Learning** and **Web Development**.",
-    "With hands-on experience at **Blitzar Tech**, **XEMI**, and **Cere Labs**, I've delivered real-world impact — fine-tuning AI models to improve prediction accuracy, building intelligent chatbots that cut customer response time, and streamlining web applications for faster deployments.",
-    "I love blending technology and innovation to solve business problems, whether that's creating machine learning models, automating processes, or enhancing user experiences.",
+    "**AI/ML Engineer** with 3+ years building **machine learning models**, **GenAI applications**, **RAG systems** and **agentic AI workflows** most recently as a **Data Scientist** at NeoSOFT.",
+    "My work spans **LLM applications**, **RAG** and semantic search, **AI agents** built with **LangGraph** and **LangChain**, fine-tuning and evaluation of domain-specific models, and **predictive modelling** and forecasting. Mostly **Python**, **FastAPI**, **SQL** and vector databases.",
+    "Recently that has meant an LLM pipeline turning meeting recordings into client-ready requirement documents, cutting manual documentation effort by **90%**, and fine-tuning **Gemma 2** on insurance data with **LoRA** and 4-bit quantisation. Earlier work covers GPT fine-tuning for HSN classification, logistics route optimisation that cut transport costs **28%**, and stroke risk prediction.",
+    "The part I care most about is the one most ML work skips getting the model behind an API, in a container, with evaluation you can actually trust.",
   ],
 
-  /** Shown on /about. `Passion fuels Purpose!` was the old heading. */
-  aboutHeading: "Passion fuels Purpose",
+  /** Section heading on the homepage. */
+  aboutHeading: "From prototype to production",
 };
 
 /**

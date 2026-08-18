@@ -1,8 +1,8 @@
 import HeroVoyage from "@/components/voyage/HeroVoyage";
 import OceanGap from "@/components/voyage/OceanGap";
-import About from "@/components/About";
-import Work from "@/components/Work";
-import ContactCta from "@/components/ContactCta";
+import About from "@/components/sections/About";
+import Work from "@/components/sections/Work";
+import ContactCta from "@/components/sections/ContactCta";
 
 export default function Home() {
   return (

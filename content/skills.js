@@ -13,7 +13,7 @@
  * Everything technical is listed rather than curated down, because ATS
  * keyword matching is literal and each entry costs one small chip.
  *
- * `icon` is looked up in components/skills/iconMap.js. Anything without a
+ * `icon` is looked up in components/sections/skillIcons.js. Anything without a
  * match renders as a text chip — a supported outcome, not a bug, so you
  * can add a skill without touching that file.
  *

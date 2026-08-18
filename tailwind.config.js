@@ -80,6 +80,10 @@ module.exports = {
           near: "hsl(var(--sea-near))",
         },
         sun: "hsl(var(--sun))",
+        curtain: {
+          from: "hsl(var(--curtain-from))",
+          to: "hsl(var(--curtain-to))",
+        },
       },
       borderRadius: {
         lg: "var(--radius)",

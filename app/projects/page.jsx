@@ -5,7 +5,7 @@ import { AnimatePresence, motion } from "framer-motion";
 
 import { useMotionPref } from "@/components/motion/MotionPreference";
 
-import ProjectCard from "@/components/ProjectCard";
+import ProjectCard from "@/components/cards/ProjectCard";
 import Reveal from "@/components/motion/Reveal";
 import { projects, categories } from "@/content/projects";
 
@@ -18,27 +18,27 @@ export default function ProjectsPage() {
       active === "all"
         ? projects
         : projects.filter((p) => p.category === active),
-    [active]
+    [active],
   );
 
   // Hide a filter that would return nothing.
   const shown = useMemo(
     () =>
       categories.filter(
-        (c) => c.id === "all" || projects.some((p) => p.category === c.id)
+        (c) => c.id === "all" || projects.some((p) => p.category === c.id),
       ),
-    []
+    [],
   );
 
   return (
     <section className="deck my-5 max-w-6xl py-20 sm:my-8 sm:py-28">
       <div className="container">
-        <Reveal className="mb-10 sm:mb-14">
+        <Reveal immediate className="mb-10 sm:mb-14">
           <p className="eyebrow mb-3">Portfolio</p>
           <h1 className="section-title">Projects</h1>
           <p className="subtitle mt-4 max-w-xl">
-            {projects.length} things I've designed, built, or broken and
-            rebuilt. Most have source on GitHub.
+            Things I've designed, built, or broken and rebuilt. Most have source
+            on GitHub.
           </p>
         </Reveal>
 
@@ -60,11 +60,21 @@ export default function ProjectsPage() {
           ))}
         </div>
 
+        {/* The cards are h3s. On the homepage they sit under an h2
+            section title, but here the only thing above them is the page
+            h1, so without this the outline jumps h1 -> h3. */}
+        <h2 className="sr-only">All projects</h2>
+
         <motion.ul
           layout={!reduced}
           className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 lg:gap-6"
         >
-          <AnimatePresence mode="popLayout">
+          {/* initial={false} keeps the cards out of the entrance animation
+              on first paint. They used to scale 0.97 -> 1 on every page
+              open, and scaling a card re-rasterises its text mid-flight,
+              which reads as the type shivering. Filter changes still
+              animate, which is the only place the motion earns itself. */}
+          <AnimatePresence mode="popLayout" initial={false}>
             {filtered.map((project, i) => (
               <motion.li
                 key={project.slug}

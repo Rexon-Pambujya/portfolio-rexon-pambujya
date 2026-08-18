@@ -13,6 +13,26 @@
  */
 export const projects = [
   {
+    slug: "caredoc-ai",
+    name: "CareDoc AI",
+    category: "ai-ml",
+    description:
+      "A healthcare documentation assistant that turns spoken or written nursing handover notes into validated, structured care records. Faster-Whisper transcription feeds provider-neutral LLM extraction (Groq, OpenAI or Ollama), then Pydantic validation and confidence scoring flag anything a human should review.",
+    github: "https://github.com/Rexon-Pambujya/CareDocAI",
+    tags: ["Gen AI", "LLM", "Whisper", "FastAPI", "Pydantic", "Streamlit"],
+    featured: true,
+  },
+  {
+    slug: "expertise-fraud",
+    name: "Expertise Fraud Detection",
+    category: "ai-ml",
+    description:
+      "Detects inflated expertise claims in candidate profiles by scoring timeline inconsistencies, buzzword patterns and web signals into a feature vector. A PPO-trained policy in a Gymnasium environment then decides PASS, FLAG or ASK_MORE, and every verdict ships with the evidence behind it.",
+    github: "https://github.com/Rexon-Pambujya/Expertise-Fraud",
+    tags: ["Reinforcement Learning", "PPO", "Gymnasium", "Explainable AI", "Python"],
+    featured: true,
+  },
+  {
     slug: "faq-chatbot-rag",
     name: "FAQ Chatbot using RAG",
     category: "ai-ml",
@@ -24,6 +44,17 @@ export const projects = [
     featured: true,
   },
   {
+    slug: "stroke-predictor",
+    name: "Stroke Risk Predictor",
+    category: "ai-ml",
+    description:
+      "Predicts stroke risk from patient health records. Compares Logistic Regression, Random Forest and XGBoost with class-imbalance handling, then tunes the decision threshold for recall — the metric that actually matters when a false negative is a missed stroke. Deployed as a Streamlit app with per-patient insights.",
+    image: "/work/16.webp",
+    github: "https://github.com/Rexon-Pambujya/StrokePredictor",
+    tags: ["XGBoost", "scikit-learn", "Class Imbalance", "Streamlit", "Python"],
+    featured: true,
+  },
+  {
     slug: "diabetes-prediction",
     name: "Diabetes Prediction & Classification",
     category: "ai-ml",
@@ -32,7 +63,6 @@ export const projects = [
     image: "/work/2.webp",
     github: "https://github.com/Rexon-Pambujya/Diabetes_Prediction_Streamlit",
     tags: ["Machine Learning", "Data Science", "scikit-learn", "Streamlit"],
-    featured: true,
   },
   {
     slug: "osms",
@@ -55,7 +85,6 @@ export const projects = [
     image: "/work/13.webp",
     github: "https://github.com/Rexon-Pambujya/DynamicEventsWebApp",
     tags: ["React", "MongoDB", "Express"],
-    featured: true,
   },
   {
     slug: "food-ordering-fullstack",
@@ -167,7 +196,8 @@ export const projects = [
     image: "/work/1.webp",
     github: "https://github.com/Rexon-Pambujya/OTP-LOGIN-SYSTEM-SHA256",
     tags: ["Java", "Swing", "SHA-256", "SMTP"],
-    featured: true,
+    // unfeatured to keep the homepage at six and make room for CareDoc AI;
+    // it's the least aligned with the AI/ML positioning
   },
 ];
 

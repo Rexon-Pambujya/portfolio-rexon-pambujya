@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-import Socials from "./Socials";
+import Socials from "@/components/common/Socials";
 import { profile } from "@/content/profile";
 import { navLinks } from "@/content/site";
 

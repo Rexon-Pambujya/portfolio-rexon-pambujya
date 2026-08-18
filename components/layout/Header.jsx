@@ -8,7 +8,7 @@ import Logo from "./Logo";
 import Navbar from "./Navbar";
 import MobileNavbar from "./MobileNavbar";
 import ThemeToggler from "./ThemeToggler";
-import { Button } from "./ui/button";
+import { Button } from "@/components/ui/button";
 import { profile } from "@/content/profile";
 
 export default function Header() {

@@ -1,15 +1,19 @@
 import { Linkedin, MailIcon, MapPin, PhoneCall } from "lucide-react";
 import Link from "next/link";
 
-import ContactForm from "@/components/ContactForm";
+import ContactForm from "@/components/forms/ContactForm";
 import Reveal from "@/components/motion/Reveal";
-import Socials from "@/components/Socials";
+import Socials from "@/components/common/Socials";
 import { profile } from "@/content/profile";
 import { socials } from "@/content/socials";
 
 export const metadata = {
   title: "Contact",
   description: `Get in touch with ${profile.name} — ${profile.role} based in ${profile.location}.`,
+  // Without this the root layout's canonical:"/" is inherited, marking
+  // this page a duplicate of the homepage.
+  alternates: { canonical: "/contact" },
+  openGraph: { url: "/contact" },
 };
 
 const linkedin = socials.find((s) => s.icon === "linkedin");
@@ -22,7 +26,7 @@ export default function ContactPage() {
             single narrow column from 0 to 1279px */}
         <div className="grid gap-12 lg:grid-cols-[0.85fr_1fr] lg:gap-16">
           <div>
-            <Reveal>
+            <Reveal immediate>
               <p className="eyebrow mb-4">Say hello</p>
               <h1 className="h1 text-balance">Let's work together</h1>
               <p className="subtitle mt-6 max-w-md">
@@ -32,7 +36,7 @@ export default function ContactPage() {
               </p>
             </Reveal>
 
-            <Reveal delay={0.1}>
+            <Reveal immediate>
               <ul className="mt-10 space-y-5">
                 <li>
                   <Link
@@ -110,7 +114,9 @@ export default function ContactPage() {
             </Reveal>
           </div>
 
-          <Reveal delay={0.15}>
+          {/* The whole contact page is one screen — every block here is
+              visible on open, so none of it animates in. */}
+          <Reveal immediate>
             <ContactForm />
           </Reveal>
         </div>

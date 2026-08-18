@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 
-import { useMotionPref } from "../motion/MotionPreference";
+import { useMotionPref } from "@/components/motion/MotionPreference";
 
 /**
  * Open water between two decks.

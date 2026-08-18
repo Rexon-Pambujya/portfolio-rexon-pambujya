@@ -53,6 +53,11 @@
     --sea-near: 205 55% 26%;
     --sun: 35 95% 62%;
 
+    /* Transition curtains. These must contrast against --background, not
+       blend into the scene: on parchment that means deep water. */
+    --curtain-from: 205 58% 24%;
+    --curtain-to: 214 62% 12%;
+
     --radius: 0.75rem;
   }
 
@@ -94,6 +99,11 @@
     --sea-far: 196 58% 33%;
     --sea-near: 213 62% 10%;
     --sun: 34 100% 68%;
+
+    /* Inverted against the light theme: the page here is near-black, so a
+       curtain built from --sea-near sat at 1.1:1 and was invisible. */
+    --curtain-from: 194 56% 42%;
+    --curtain-to: 202 60% 20%;
   }
 }
 
@@ -106,6 +116,19 @@
     /* Lenis drives scrolling; native smooth would fight it */
     scroll-behavior: auto;
     -webkit-text-size-adjust: 100%;
+
+    /* Scrollbar hidden — the progress bar at the top edge is the scroll
+       affordance instead. Scrolling itself is untouched: wheel, trackpad,
+       touch, keyboard (space, PgDn, arrows) and find-on-page all still
+       work, and focus scrolling still reaches offscreen elements. */
+    scrollbar-width: none;
+  }
+
+  html::-webkit-scrollbar,
+  body::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+    display: none;
   }
 
   body {
@@ -167,6 +190,83 @@
   }
 }
 
+/* ------------------------------------------------------------------
+   Intro curtain — first paint of every document load.
+
+   Deliberately pure CSS on server-rendered markup, not a React state
+   machine: it is present in the very first frame the browser paints
+   (no flash of content, then cover), it needs no hydration, and if JS
+   never arrives it still clears itself. A JS-driven preloader that
+   fails to mount leaves the page covered forever.
+
+   It does not touch the content's opacity, so the LCP element still
+   paints on schedule underneath.
+------------------------------------------------------------------ */
+/* State-driven, not timed. It covers until [data-ready="true"], which
+   IntroCurtain sets once fonts, window load and the first ocean frame
+   have all landed. A keyframe animation on a delay cleared while the
+   shader was still booting and revealed a half-built page. */
+.intro-curtain {
+  position: fixed;
+  inset: 0;
+  z-index: 66;
+  pointer-events: none;
+  will-change: transform;
+  transform: translateY(0);
+}
+
+.intro-curtain[data-ready="true"] {
+  transform: translateY(-102%);
+  transition: transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.intro-bar {
+  width: clamp(8rem, 22vw, 14rem);
+  height: 2px;
+  overflow: hidden;
+  border-radius: 2px;
+  background: hsl(0 0% 100% / 0.18);
+}
+
+/* Width is set inline from real milestones — fonts, window load, first
+   ocean frame — so this only eases between actual steps rather than
+   animating on a timer that knows nothing. */
+.intro-bar-fill {
+  display: block;
+  height: 100%;
+  transform-origin: left center;
+  background: hsl(0 0% 100% / 0.9);
+  /* Creeps under CSS, completes under JS.
+     The real wait here is hydration and shader boot, and JavaScript by
+     definition cannot report progress during the window before it runs —
+     measuring from inside the effect showed the bar jumping from its
+     start value straight to done, because everything had already
+     finished by then. CSS starts at first paint and covers that gap;
+     IntroCurtain then overrides to 100% on genuine readiness, so the
+     completion is real even though the creep is an estimate. */
+  animation: intro-creep 3.2s cubic-bezier(0, 0.65, 0.3, 1) both;
+}
+
+@keyframes intro-creep {
+  from {
+    transform: scaleX(0.06);
+  }
+  to {
+    transform: scaleX(0.88);
+  }
+}
+
+/* Reduced motion fades the curtain out instead of sliding it.
+   `display: none` here was wrong: it removed the loading state entirely
+   from exactly the visitors most likely to be on a slow machine. A
+   cross-fade involves no movement, so it isn't what the preference
+   guards against — large travel and parallax are, and those stay off. */
+html[data-motion="reduced"] .intro-curtain[data-ready="true"] {
+  transform: none;
+  opacity: 0;
+  transition: opacity 0.45s ease-out;
+}
+
 @layer components {
   .h1 {
     @apply font-display font-semibold tracking-[-0.02em]
@@ -211,10 +311,14 @@
   /* Width is deliberately NOT set here — each section picks its own, and
      two competing max-w-* utilities resolve by Tailwind's own source
      order rather than the order you write them in the class attribute. */
-  /* Heavy frosting hid the ship completely. This is deliberately barely
-     frosted — enough to hold text contrast, thin enough that the hull and
-     the changing sky read straight through it. Text blocks that need more
-     backing use .plate below rather than thickening the whole surface. */
+  /* Translucent by choice, with a known cost.
+     Letting the animating ocean through means the backdrop changes every
+     frame, so text edges recomposite continuously — measured at 8
+     distinct frames out of 8 on a fully idle page. Opacity was the only
+     thing that stopped it (45/75/88% and layer promotion all still
+     shimmered), but opaque decks lost the look, so the translucency
+     stays and the shimmer is accepted.
+     Don't "fix" the shimmer by nudging this value — it was tested. */
   .deck {
     @apply relative mx-auto w-full overflow-hidden rounded-3xl
            border border-border/40 bg-background/45 shadow-2xl
