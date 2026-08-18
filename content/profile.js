@@ -45,10 +45,10 @@ export const profile = {
     "I build ML models, LLM applications, RAG systems and agentic workflows that hold up in production.",
 
   bio: [
-    "**AI/ML Engineer** with 3+ years building **machine learning models**, **GenAI applications**, **RAG systems** and **agentic AI workflows** — most recently as a **Data Scientist** at NeoSOFT.",
+    "**AI/ML Engineer** with 3+ years building **machine learning models**, **GenAI applications**, **RAG systems** and **agentic AI workflows** most recently as a **Data Scientist** at NeoSOFT.",
     "My work spans **LLM applications**, **RAG** and semantic search, **AI agents** built with **LangGraph** and **LangChain**, fine-tuning and evaluation of domain-specific models, and **predictive modelling** and forecasting. Mostly **Python**, **FastAPI**, **SQL** and vector databases.",
     "Recently that has meant an LLM pipeline turning meeting recordings into client-ready requirement documents, cutting manual documentation effort by **90%**, and fine-tuning **Gemma 2** on insurance data with **LoRA** and 4-bit quantisation. Earlier work covers GPT fine-tuning for HSN classification, logistics route optimisation that cut transport costs **28%**, and stroke risk prediction.",
-    "The part I care most about is the one most ML work skips — getting the model behind an API, in a container, with evaluation you can actually trust.",
+    "The part I care most about is the one most ML work skips getting the model behind an API, in a container, with evaluation you can actually trust.",
   ],
 
   /** Section heading on the homepage. */
