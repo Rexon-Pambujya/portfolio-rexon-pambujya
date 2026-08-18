@@ -10,6 +10,10 @@ import { socials } from "@/content/socials";
 export const metadata = {
   title: "Contact",
   description: `Get in touch with ${profile.name} — ${profile.role} based in ${profile.location}.`,
+  // Without this the root layout's canonical:"/" is inherited, marking
+  // this page a duplicate of the homepage.
+  alternates: { canonical: "/contact" },
+  openGraph: { url: "/contact" },
 };
 
 const linkedin = socials.find((s) => s.icon === "linkedin");

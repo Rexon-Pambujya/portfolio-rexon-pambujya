@@ -8,6 +8,7 @@ export const metadata = {
   title: "Writing",
   description: `Notes on building AI systems by ${profile.name} — agents, RAG, LLM applications and production ML.`,
   alternates: { canonical: "/writing" },
+  openGraph: { url: "/writing" },
 };
 
 export default function WritingLayout({ children }) {

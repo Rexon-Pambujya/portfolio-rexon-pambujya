@@ -60,6 +60,11 @@ export default function ProjectsPage() {
           ))}
         </div>
 
+        {/* The cards are h3s. On the homepage they sit under an h2
+            section title, but here the only thing above them is the page
+            h1, so without this the outline jumps h1 -> h3. */}
+        <h2 className="sr-only">All projects</h2>
+
         <motion.ul
           layout={!reduced}
           className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 lg:gap-6"
