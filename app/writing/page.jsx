@@ -3,7 +3,7 @@
 import { useMemo, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 
-import PostCard from "@/components/PostCard";
+import PostCard from "@/components/cards/PostCard";
 import Reveal from "@/components/motion/Reveal";
 import { useMotionPref } from "@/components/motion/MotionPreference";
 import { posts, postTags } from "@/content/posts";

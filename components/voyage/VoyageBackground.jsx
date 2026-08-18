@@ -5,7 +5,7 @@ import { useEffect, useRef } from "react";
 import { createOceanProgram, seaPointAt, swellAt } from "./oceanShader";
 import { Ship, DOCKS } from "./shapes";
 import Birds from "./Birds";
-import { useMotionPref } from "../motion/MotionPreference";
+import { useMotionPref } from "@/components/motion/MotionPreference";
 import { voyageStops } from "@/content/voyage";
 
 /* ── helpers ─────────────────────────────────────────────────────── */

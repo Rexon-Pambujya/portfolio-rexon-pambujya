@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
 
-import { useMotionPref } from "./motion/MotionPreference";
+import { useMotionPref } from "@/components/motion/MotionPreference";
 import { ArrowUpRight, Github } from "lucide-react";
 
 /**

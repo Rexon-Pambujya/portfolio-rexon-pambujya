@@ -66,7 +66,7 @@
  * @typedef {Object} Social
  * @property {string} label
  * @property {string} href
- * @property {string} icon   Key resolved in components/Socials.jsx
+ * @property {string} icon   Key resolved in components/common/Socials.jsx
  */
 
 export {};

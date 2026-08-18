@@ -1,6 +1,6 @@
 "use client";
 
-import Reveal from "./motion/Reveal";
+import Reveal from "@/components/motion/Reveal";
 import { education } from "@/content/education";
 
 export default function Education() {

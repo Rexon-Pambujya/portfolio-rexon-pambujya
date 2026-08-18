@@ -8,9 +8,9 @@ import {
   useTransform,
 } from "framer-motion";
 
-import { useMotionPref } from "./motion/MotionPreference";
+import { useMotionPref } from "@/components/motion/MotionPreference";
 
-import Reveal from "./motion/Reveal";
+import Reveal from "@/components/motion/Reveal";
 import { experience } from "@/content/experience";
 
 /**

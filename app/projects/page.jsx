@@ -5,7 +5,7 @@ import { AnimatePresence, motion } from "framer-motion";
 
 import { useMotionPref } from "@/components/motion/MotionPreference";
 
-import ProjectCard from "@/components/ProjectCard";
+import ProjectCard from "@/components/cards/ProjectCard";
 import Reveal from "@/components/motion/Reveal";
 import { projects, categories } from "@/content/projects";
 

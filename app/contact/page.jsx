@@ -1,9 +1,9 @@
 import { Linkedin, MailIcon, MapPin, PhoneCall } from "lucide-react";
 import Link from "next/link";
 
-import ContactForm from "@/components/ContactForm";
+import ContactForm from "@/components/forms/ContactForm";
 import Reveal from "@/components/motion/Reveal";
-import Socials from "@/components/Socials";
+import Socials from "@/components/common/Socials";
 import { profile } from "@/content/profile";
 import { socials } from "@/content/socials";
 

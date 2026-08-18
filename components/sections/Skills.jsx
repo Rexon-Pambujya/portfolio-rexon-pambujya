@@ -2,9 +2,9 @@
 
 import { motion } from "framer-motion";
 
-import { useMotionPref } from "./motion/MotionPreference";
+import { useMotionPref } from "@/components/motion/MotionPreference";
 import { skillGroups, softSkills } from "@/content/skills";
-import { skillIcons } from "./skills/iconMap";
+import { skillIcons } from "./skillIcons";
 
 /**
  * Compact inline chips rather than a grid of tiles.

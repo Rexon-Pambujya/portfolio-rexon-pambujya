@@ -7,11 +7,11 @@ import {
   useTransform,
 } from "framer-motion";
 
-import { useMotionPref } from "../motion/MotionPreference";
-import useIntroDone from "../motion/useIntroDone";
+import { useMotionPref } from "@/components/motion/MotionPreference";
+import useIntroDone from "@/components/motion/useIntroDone";
 import { ArrowDown } from "lucide-react";
 
-import Socials from "@/components/Socials";
+import Socials from "@/components/common/Socials";
 import HeroMedia from "./HeroMedia";
 import { hero, hasHeroPoster } from "@/content/hero";
 import { profile, yearsOfExperience } from "@/content/profile";

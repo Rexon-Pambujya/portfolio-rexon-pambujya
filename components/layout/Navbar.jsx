@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion } from "framer-motion";
 
-import { useMotionPref } from "./motion/MotionPreference";
+import { useMotionPref } from "@/components/motion/MotionPreference";
 
 import { navLinks } from "@/content/site";
 

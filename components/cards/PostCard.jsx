@@ -4,7 +4,7 @@ import { forwardRef } from "react";
 import { motion } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
 
-import { useMotionPref } from "./motion/MotionPreference";
+import { useMotionPref } from "@/components/motion/MotionPreference";
 import { formatPostDate } from "@/content/posts";
 
 /**

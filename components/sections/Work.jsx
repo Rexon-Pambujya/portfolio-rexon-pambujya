@@ -3,9 +3,9 @@
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 
-import { Button } from "./ui/button";
-import ProjectCard from "./ProjectCard";
-import Reveal from "./motion/Reveal";
+import { Button } from "@/components/ui/button";
+import ProjectCard from "@/components/cards/ProjectCard";
+import Reveal from "@/components/motion/Reveal";
 import { featuredProjects } from "@/content/projects";
 
 /**
